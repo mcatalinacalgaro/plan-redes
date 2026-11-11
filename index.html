@@ -1,0 +1,1226 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Plan de redes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: plan de campaña en una columna de lectura, con una banda de "losa" de piedra que se dobla como portada y secciones ancladas desde una barra fija. */
+:root {
+  --paper: #ecebe7;
+  --card: #f7f6f3;
+  --ink: #1b1e21;
+  --slate: #3b464e;
+  --muted: #646b70;
+  --line: #d3d2cc;
+  --ochre: #a77f22;
+  --ochre-soft: #efe3c4;
+  --reel: #33424c;
+  --carousel: #a77f22;
+  --post: #6b7a5a;
+  --story: #8a5a4a;
+  --stone-a: #b9b6ae;
+  --stone-b: #8f8b83;
+  --stone-c: #d8d5ce;
+  --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141719; --card: #1b1f22; --ink: #ebeae5; --slate: #aab6bd; --muted: #8f969b; --line: #2d3236;
+    --ochre: #d4ab4f; --ochre-soft: #3a3020; --reel: #9fb3c0; --carousel: #d4ab4f; --post: #a9b98f; --story: #d39a85;
+    --stone-a: #5d5a54; --stone-b: #45423d; --stone-c: #77736b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141719; --card: #1b1f22; --ink: #ebeae5; --slate: #aab6bd; --muted: #8f969b; --line: #2d3236;
+  --ochre: #d4ab4f; --ochre-soft: #3a3020; --reel: #9fb3c0; --carousel: #d4ab4f; --post: #a9b98f; --story: #d39a85;
+  --stone-a: #5d5a54; --stone-b: #45423d; --stone-c: #77736b; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font: 15px/1.6 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-stretch: 112%; font-weight: 700; letter-spacing: -0.01em; line-height: 1.05; }
+h3 { font-size: 1.12rem; font-stretch: 100%; font-weight: 650; }
+p { margin: 0; }
+.eyebrow { font: 500 0.72rem/1.2 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ochre); }
+.lead { font-size: 1.05rem; color: var(--muted); max-width: 64ch; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px; }
+
+/* Portada */
+.hero { padding-block: 56px 40px; display: grid; gap: 36px; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: center; }
+.hero h1 { font-size: clamp(2.8rem, 8vw, 6rem); font-stretch: 125%; font-weight: 800; line-height: 0.92; letter-spacing: -0.02em; }
+.hero h1 span { display: block; color: var(--ochre); font-stretch: 75%; font-weight: 700; }
+.hero .meta { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px 18px; font: 500 0.82rem/1.4 var(--mono); color: var(--muted); }
+.facts { margin-top: 26px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.facts div { background: var(--paper); padding: 12px 14px; }
+.facts b { display: block; font: 700 1.6rem/1 var(--display); font-stretch: 110%; font-variant-numeric: tabular-nums; }
+.facts span { font-size: 0.78rem; color: var(--muted); }
+.slab-stage { perspective: 900px; display: grid; place-items: center; min-height: 300px; }
+.slab { display: flex; height: 280px; transform-style: preserve-3d; filter: drop-shadow(0 26px 30px rgba(0,0,0,.22)); }
+.slab i { display: block; width: 46px; height: 100%; transform-origin: left center; transform-style: preserve-3d;
+  background:
+    radial-gradient(120% 60% at 30% 20%, var(--stone-c) 0 18%, transparent 40%),
+    radial-gradient(90% 50% at 70% 70%, var(--stone-b) 0 12%, transparent 45%),
+    repeating-linear-gradient(172deg, transparent 0 9px, rgba(0,0,0,.06) 9px 10px, transparent 10px 23px),
+    linear-gradient(180deg, var(--stone-a), var(--stone-b));
+  background-size: 276px 280px; }
+.slab i:nth-child(1) { background-position: 0 0; } .slab i:nth-child(2) { background-position: -46px 0; } .slab i:nth-child(3) { background-position: -92px 0; }
+.slab i:nth-child(4) { background-position: -138px 0; } .slab i:nth-child(5) { background-position: -184px 0; } .slab i:nth-child(6) { background-position: -230px 0; }
+.slab i + i { margin-left: 0; }
+@keyframes bend { 0%, 18% { transform: rotateY(0deg); } 50%, 72% { transform: rotateY(var(--a)); } 100% { transform: rotateY(0deg); } }
+.slab i { animation: bend 5.5s cubic-bezier(.5,0,.2,1) infinite; }
+.slab i:nth-child(1) { --a: -6deg; } .slab i:nth-child(2) { --a: -11deg; } .slab i:nth-child(3) { --a: -14deg; }
+.slab i:nth-child(4) { --a: -14deg; } .slab i:nth-child(5) { --a: -11deg; } .slab i:nth-child(6) { --a: -6deg; }
+.slab-stage > div { display: flex; flex-direction: column; align-items: center; }
+.slab-caption { margin-top: 18px; text-align: center; font: 500 0.74rem/1.4 var(--mono); color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .slab i { animation: none; transform: rotateY(var(--a)); } }
+
+/* Barra de secciones */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-block: 1px solid var(--line); }
+.nav .wrap { display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; }
+.nav a { flex: none; text-decoration: none; padding: 6px 12px; border-radius: 999px; font-size: 0.86rem; color: var(--muted); }
+.nav a:hover { color: var(--ink); background: var(--card); }
+
+section.block { padding-block: 64px 8px; scroll-margin-top: 60px; }
+.block > .wrap > header { display: grid; gap: 12px; margin-bottom: 28px; }
+.grid2 { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid3 { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; min-width: 0; }
+.card p + p, .card ul { margin-top: 8px; }
+ul.clean { margin: 0; padding-left: 18px; }
+ul.clean li + li { margin-top: 4px; }
+.quote { font-family: var(--display); font-stretch: 118%; font-weight: 700; font-size: clamp(1.3rem, 2.6vw, 1.8rem); line-height: 1.15; }
+.small { font-size: 0.84rem; color: var(--muted); }
+.tag { display: inline-flex; align-items: center; gap: 6px; font: 500 0.7rem/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; border: 1px solid currentColor; white-space: nowrap; }
+.t-reel { color: var(--reel); } .t-carrusel { color: var(--carousel); } .t-post { color: var(--post); } .t-historia { color: var(--story); }
+.tier { font: 500 0.7rem/1 var(--mono); color: var(--muted); }
+
+/* Modelos */
+.models { display: grid; gap: 12px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.model { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--card); min-width: 0; }
+.model .sw { height: 120px; }
+.model .tx { padding: 12px; }
+.model h3 { font-size: 0.98rem; }
+.model .num { font: 500 0.74rem/1.4 var(--mono); color: var(--muted); }
+
+/* Etapas */
+.phases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.phase { padding: 16px; border-right: 1px solid var(--line); background: var(--card); min-width: 0; }
+.phase:last-child { border-right: 0; }
+.phase .when { font: 500 0.74rem/1.3 var(--mono); color: var(--ochre); }
+.phase h3 { margin-top: 6px; }
+.phase p { margin-top: 6px; font-size: 0.86rem; color: var(--muted); }
+
+/* Calendario */
+.weeks { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.weeks button { font: 500 0.82rem/1 var(--body); padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.weeks button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.days { display: grid; gap: 8px; }
+.day { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 16px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+.day .date { font-family: var(--display); font-stretch: 100%; font-weight: 700; font-size: 1.05rem; line-height: 1.1; }
+.day .date small { display: block; font: 500 0.72rem/1.4 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.day .items { display: grid; gap: 8px; min-width: 0; }
+.item { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.item .time { font: 500 0.78rem/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.item a { text-decoration: none; font-weight: 600; }
+.item a:hover { text-decoration: underline; }
+.stories { font-size: 0.86rem; color: var(--muted); }
+.stories b { color: var(--story); font-weight: 600; }
+.day.hi { border-color: var(--ochre); box-shadow: inset 4px 0 0 var(--ochre); }
+
+/* Guiones */
+.script { border: 1px solid var(--line); border-radius: 10px; background: var(--card); overflow: hidden; }
+.script + .script { margin-top: 16px; }
+.script header { padding: 18px; display: grid; gap: 6px; border-bottom: 1px solid var(--line); }
+.script table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.script td, .script th { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.script th { font: 500 0.7rem/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.script tr:last-child td { border-bottom: 0; }
+.script td:first-child { font: 500 0.78rem/1.5 var(--mono); color: var(--ochre); white-space: nowrap; }
+.vo { font-style: italic; }
+.scroll { overflow-x: auto; }
+.bank { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 760px; }
+.bank th, .bank td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.bank th { font: 500 0.7rem/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); position: sticky; top: 0; background: var(--paper); }
+.bank td:first-child { font: 500 0.8rem/1.5 var(--mono); color: var(--reel); white-space: nowrap; }
+.bank tr:target td { background: var(--ochre-soft); }
+
+/* Historias */
+.slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.slot .h { font: 700 1.6rem/1 var(--display); font-stretch: 110%; font-variant-numeric: tabular-nums; color: var(--story); }
+.phones { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.phones.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 620px; }
+.phone.water { background: linear-gradient(160deg,#7fc3cf,#2f8fa3); color: #fff; } .phone.water .k { color: rgba(255,255,255,.85); }
+.phone.glaze { background: linear-gradient(160deg,#2f7d63,#1c5544); color: #fff; } .phone.glaze .k { color: rgba(255,255,255,.85); }
+.phone { aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid var(--line); padding: 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative; max-width: 100%; }
+.phone .k { font: 500 0.66rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.phone .big { font-family: var(--display); font-stretch: 115%; font-weight: 800; font-size: 1.05rem; line-height: 1.05; }
+.phone .pill { align-self: flex-start; font-size: 0.72rem; padding: 6px 9px; border-radius: 999px; background: var(--ink); color: var(--paper); }
+.phone.stone { background:
+    radial-gradient(100% 50% at 30% 30%, var(--stone-c) 0 20%, transparent 50%),
+    repeating-linear-gradient(170deg, transparent 0 11px, rgba(0,0,0,.05) 11px 12px),
+    linear-gradient(180deg, var(--stone-a), var(--stone-b)); color: #fff; }
+.phone.stone .k { color: rgba(255,255,255,.8); }
+.phone.paper { background: var(--card); }
+.poll { display: grid; gap: 6px; }
+.poll span { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font-size: 0.74rem; }
+
+/* Carruseles */
+.slides { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-top: 10px; }
+.slides span { flex: none; width: 120px; aspect-ratio: 4 / 5; border: 1px solid var(--line); border-radius: 6px; padding: 8px; font-size: 0.74rem; line-height: 1.3; background: var(--paper); }
+.slides span b { display: block; font: 500 0.62rem/1.2 var(--mono); color: var(--ochre); margin-bottom: 4px; }
+
+/* Checklist */
+.check { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.check label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 4px; border-radius: 6px; cursor: pointer; }
+.check label:hover { background: var(--paper); }
+.check input { margin-top: 4px; accent-color: var(--ochre); width: 16px; height: 16px; flex: none; }
+.check input:checked + span { color: var(--muted); text-decoration: line-through; }
+.progress { font: 500 0.78rem/1 var(--mono); color: var(--muted); }
+.modelpick { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.modelpick button { font-size: 0.82rem; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.modelpick button[aria-pressed="true"] { border-color: var(--ochre); background: var(--ochre-soft); }
+
+/* Presupuesto */
+.money { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.money td, .money th { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.money th { font: 500 0.7rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.money td.n { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; font-weight: 600; }
+.gloss { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 20px; margin: 12px 0 0; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 2px 0 0; font-size: 0.86rem; color: var(--muted); }
+@media (max-width: 900px) { .gloss { grid-template-columns: minmax(0, 1fr); } }
+.money tfoot td { font-weight: 700; border-bottom: 0; }
+
+footer.end { padding-block: 64px 80px; }
+.next { counter-reset: n; display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.next li { counter-increment: n; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.next li::before { content: counter(n); font: 700 1.2rem/1 var(--display); color: var(--ochre); }
+
+@media (max-width: 900px) {
+  .phones.n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 36px 24px; }
+  .slab-stage { min-height: 220px; } .slab { height: 210px; } .slab i { width: 34px; background-size: 204px 210px; }
+  .slab i:nth-child(2) { background-position: -34px 0; } .slab i:nth-child(3) { background-position: -68px 0; } .slab i:nth-child(4) { background-position: -102px 0; } .slab i:nth-child(5) { background-position: -136px 0; } .slab i:nth-child(6) { background-position: -170px 0; }
+  .models { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .phases { grid-template-columns: minmax(0, 1fr); } .phase { border-right: 0; border-bottom: 1px solid var(--line); } .phase:last-child { border-bottom: 0; }
+  .grid3, .grid2 { grid-template-columns: minmax(0, 1fr); }
+  .slots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .day { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+}
+
+/* Vistas: resumen y un plan por producto */
+.switch { border-bottom: 1px solid var(--line); background: var(--card); }
+.switch .wrap { display: flex; gap: 6px; align-items: center; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+.switch .lbl { flex: none; font: 500 0.7rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+.switch button { flex: none; font: 600 0.86rem/1 var(--body); padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.switch button[aria-current="page"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.switch button .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pc, var(--ochre)); }
+.view[hidden] { display: none; }
+.prod { display: inline-flex; align-items: center; gap: 6px; font: 600 0.72rem/1 var(--body); padding: 5px 9px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); white-space: nowrap; }
+.prod::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--pc); }
+.p-pf { --pc: #8f8b83; } .p-mo { --pc: #b9604d; } .p-st { --pc: #2f8fa3; }
+.pcard { display: flex; flex-direction: column; gap: 10px; }
+.pcard .quote { margin-top: 4px; }
+.pcard dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; margin: 4px 0 0; font-size: 0.86rem; }
+.pcard dt { color: var(--muted); }
+.pcard dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pcard .go { margin-top: auto; align-self: flex-start; font: 600 0.86rem/1 var(--body); padding: 10px 14px; border-radius: 999px; border: 0; background: var(--ink); color: var(--paper); cursor: pointer; }
+.others { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.others button { font: 600 0.86rem/1 var(--body); padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.dots { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.dots i { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(0,0,0,.15); display: block; }
+.hours td:first-child { white-space: nowrap; }
+
+/* Portada Momo: piezas con brillo */
+.tiles-stage, .pool-stage { display: grid; place-items: center; min-height: 300px; }
+.tiles { display: grid; grid-template-columns: repeat(5, 48px); gap: 5px; transform: rotate(-7deg); filter: drop-shadow(0 22px 26px rgba(0,0,0,.2)); }
+.tiles i { width: 48px; height: 64px; border-radius: 3px; background: var(--c); position: relative; overflow: hidden; display: block;
+  background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.0) 0 8px, rgba(0,0,0,.10) 8px 9px, rgba(255,255,255,.18) 9px 10px); }
+.tiles i::after { content: ""; position: absolute; inset: -40% -60%; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.55) 50%, transparent 60%); transform: translateX(-60%); animation: shine 4.5s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes shine { 0%, 55% { transform: translateX(-60%); } 85%, 100% { transform: translateX(60%); } }
+
+/* Portada Strufaldi: venecitas bajo el agua */
+.pool { position: relative; display: grid; grid-template-columns: repeat(8, 30px); gap: 3px; padding: 10px; border-radius: 10px; background: #e9f3f4; overflow: hidden; filter: drop-shadow(0 22px 26px rgba(0,0,0,.18)); }
+.pool i { width: 30px; height: 30px; border-radius: 2px; background: var(--c); display: block; }
+.pool::after { content: ""; position: absolute; inset: -30%; background:
+  radial-gradient(30% 12% at 30% 40%, rgba(255,255,255,.45), transparent 70%),
+  radial-gradient(25% 10% at 70% 60%, rgba(255,255,255,.35), transparent 70%),
+  radial-gradient(20% 9% at 45% 80%, rgba(255,255,255,.35), transparent 70%),
+  linear-gradient(180deg, rgba(64,170,190,.18), rgba(30,110,140,.25));
+  animation: water 6s ease-in-out infinite alternate; }
+@keyframes water { from { transform: translate(-4%, -3%) rotate(-2deg); } to { transform: translate(5%, 4%) rotate(3deg); } }
+@media (prefers-reduced-motion: reduce) { .tiles i::after, .pool::after { animation: none; } }
+@media (max-width: 900px) {
+  .tiles-stage, .pool-stage { min-height: 220px; }
+  .tiles { grid-template-columns: repeat(5, 38px); } .tiles i { width: 38px; height: 50px; }
+  .pool { grid-template-columns: repeat(8, 24px); } .pool i { width: 24px; height: 24px; }
+}
+</style>
+
+<div class="switch"><div class="wrap"><span class="lbl">Plan de redes</span>
+  <button type="button" data-view="resumen">Resumen</button>
+  <button type="button" data-view="piedra"><span class="dot" style="--pc:#8f8b83"></span>Piedra flexible</button>
+  <button type="button" data-view="momo"><span class="dot" style="--pc:#b9604d"></span>Momo</button>
+  <button type="button" data-view="strufaldi"><span class="dot" style="--pc:#2f8fa3"></span>Strufaldi</button>
+</div></div>
+
+<div class="view" id="v-resumen">
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Plan de redes · Materiales del Litoral · Resumen</p>
+      <h1 style="margin-top:14px">Tres productos.<span>Seis semanas.</span></h1>
+      <p class="lead" style="margin-top:20px">Del 12 de noviembre al 23 de diciembre: la piedra flexible como protagonista, Momo con su color y su textura, y las venecitas Strufaldi justo en la temporada de piletas. Cada producto tiene su propio plan, su horario y su parte del presupuesto. Se publica todo en Instagram, Facebook y los estados de WhatsApp.</p>
+      <div class="meta"><span>Arranca: jueves 12 de noviembre</span><span>Termina: miércoles 23 de diciembre</span></div>
+      <div class="facts"><div><b>50</b><span>reels</span></div><div><b>13</b><span>carruseles</span></div><div><b>7</b><span>posteos de foto</span></div><div><b>$780.000</b><span>total con impuestos</span></div></div>
+    </div>
+    <div class="slab-stage" aria-hidden="true"><div><div class="slab"><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="slab-caption">Piedra flexible · Momo · Strufaldi</p></div></div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Secciones del resumen">
+  <div class="wrap"><a href="#rs-productos">Los tres planes</a><a href="#rs-horarios">Horarios</a><a href="#rs-inversion">Inversión</a><a href="#rs-pago">Cómo se paga</a><a href="#rs-prometer">Qué se promete</a><a href="#rs-glosario">Palabras</a><a href="#rs-arrancar">Para arrancar</a></div>
+</nav>
+
+<section class="block" id="rs-productos"><div class="wrap">
+  <header><p class="eyebrow">Los tres planes</p><h2>Un plan para cada producto</h2>
+  <p class="lead">Cada uno tiene su página con la idea, los modelos, el calendario día por día, los guiones, las historias, los carruseles, la grabación y su inversión. Elegilo arriba o acá.</p></header>
+  <div class="grid3">
+    <div class="card pcard"><p><span class="prod p-pf">Piedra flexible</span></p><p class="quote">Es piedra.<br>Y se dobla.</p><p class="small">Lo más nuevo y lo que nadie conoce: hay que verla doblarse, cortarse y colocarse.</p>
+      <dl><dt>Fechas</dt><dd>12 nov al 23 dic</dd><dt>Publica</dt><dd>Todos los días · 13:00 y 19:00</dd><dt>Contenido</dt><dd>30 reels · 8 carruseles · 5 fotos</dd><dt>Anuncios</dt><dd>$300.000 (50%)</dd><dt>Con impuestos</dt><dd>$390.000</dd></dl>
+      <button class="go" type="button" data-go="piedra">Ver el plan de piedra flexible</button></div>
+    <div class="card pcard"><p><span class="prod p-mo">Momo</span></p><p class="quote">Color que<br>se toca.</p><p class="small">Revestimientos con relieve y esmalte en 14 colores: hay que mostrar cómo brillan y cómo quedan.</p>
+      <dl><dt>Fechas</dt><dd>17 nov al 22 dic</dd><dt>Publica</dt><dd>Mar y vie (y algunos jue y sáb) · 17:00</dd><dt>Contenido</dt><dd>11 reels · 3 carruseles · 1 foto</dd><dt>Anuncios</dt><dd>$180.000 (30%)</dd><dt>Con impuestos</dt><dd>$234.000</dd></dl>
+      <button class="go" type="button" data-go="momo">Ver el plan de Momo</button></div>
+    <div class="card pcard"><p><span class="prod p-st">Strufaldi</span></p><p class="quote">Tu pileta,<br>lista para el verano.</p><p class="small">Venecitas de 10 × 10 en 8 colores: mostrar cómo cambia el color del agua con cada una.</p>
+      <dl><dt>Fechas</dt><dd>20 nov al 20 dic</dd><dt>Publica</dt><dd>Jue y dom · 16:00</dd><dt>Contenido</dt><dd>9 reels · 2 carruseles · 1 foto</dd><dt>Anuncios</dt><dd>$120.000 (20%)</dd><dt>Con impuestos</dt><dd>$156.000</dd></dl>
+      <button class="go" type="button" data-go="strufaldi">Ver el plan de Strufaldi</button></div>
+  </div>
+</div></section>
+
+<section class="block" id="rs-horarios"><div class="wrap">
+  <header><p class="eyebrow">Cómo conviven en la cuenta</p><h2>Cada producto en su horario</h2>
+  <p class="lead">Así nunca salen dos publicaciones juntas y cada producto tiene su momento.</p></header>
+  <div class="grid2">
+    <div class="card"><div class="scroll"><table class="money hours"><thead><tr><th>Horario</th><th>Qué sale</th></tr></thead><tbody>
+      <tr><td>13:00</td><td><span class="prod p-pf">Piedra flexible</span> carruseles</td></tr>
+      <tr><td>16:00</td><td><span class="prod p-st">Strufaldi</span> jueves y domingos</td></tr>
+      <tr><td>17:00</td><td><span class="prod p-mo">Momo</span> martes y viernes (y algunos jueves y sábados)</td></tr>
+      <tr><td>19:00</td><td><span class="prod p-pf">Piedra flexible</span> reels de lunes a viernes</td></tr>
+      <tr><td>12:00</td><td><span class="prod p-pf">Piedra flexible</span> reels y fotos del fin de semana</td></tr>
+    </tbody></table></div></div>
+    <div class="card"><h3>Historias</h3><ul class="clean" style="margin-top:8px"><li><b>Todos los días</b>, en cuatro tandas (9:00, 13:00, 18:00 y 21:30), con la piedra flexible.</li><li><b>Martes y viernes</b> se suman 2 o 3 historias de Momo.</li><li><b>Jueves y domingos</b> se suman 2 o 3 de Strufaldi.</li><li>Todo va también a los estados de WhatsApp.</li></ul>
+    <h3 style="margin-top:16px">Grabación</h3><ul class="clean" style="margin-top:8px"><li><b>Miércoles 11:</b> lo mínimo de piedra flexible (1 hora).</li><li><b>Jueves 12 a la mañana:</b> colocación con el albañil y charla de MAPEI.</li><li><b>Viernes 13:</b> grabación grande: piedra flexible (4 horas), Momo (1 hora) y Strufaldi en agua (45 minutos).</li></ul></div>
+  </div>
+</div></section>
+
+<section class="block" id="rs-inversion"><div class="wrap">
+  <header><p class="eyebrow">Inversión</p><h2>$600.000 de anuncios, repartidos 50 · 30 · 20</h2>
+  <p class="lead">El objetivo principal es que la gente consulte por WhatsApp. En cada producto la publicidad tiene dos partes: una para que aparezca en todos lados y otra para convertir esa atención en mensajes. Se controla día a día: se puede pausar, bajar o subir en cualquier momento.</p></header>
+  <div class="grid2">
+    <div class="card"><h3>Publicidad en Instagram y Facebook</h3><div class="scroll" style="margin-top:10px"><table class="money"><thead><tr><th>Producto</th><th>Cuándo</th><th style="text-align:right">Monto</th></tr></thead><tbody>
+      <tr><td><span class="prod p-pf">Piedra flexible</span><br><span class="small">50%</span></td><td>12 al 29 nov: $10.000 por día<br>30 nov al 23 dic: $5.000 por día</td><td class="n">$300.000</td></tr>
+      <tr><td><span class="prod p-mo">Momo</span><br><span class="small">30%</span></td><td>17 al 29 nov: $3.000 por día<br>30 nov al 23 dic: $5.875 por día</td><td class="n">$180.000</td></tr>
+      <tr><td><span class="prod p-st">Strufaldi</span><br><span class="small">20%</span></td><td>20 nov al 19 dic: $4.000 por día</td><td class="n">$120.000</td></tr>
+      <tr><td colspan="2">Presupuesto de anuncios (6 semanas)</td><td class="n">$600.000</td></tr>
+      <tr><td colspan="2">Impuestos que suma la tarjeta al pagar (IVA y percepciones): alrededor de 30%, según los pagos anteriores de la cuenta</td><td class="n">$180.000</td></tr>
+    </tbody><tfoot><tr><td colspan="2">Total estimado a pagar</td><td class="n">$780.000</td></tr></tfoot></table></div>
+    <p class="small" style="margin-top:10px">Entre los tres, se gastan entre $10.000 y $17.000 por día, según la semana. Cada producto se divide mitad para presencia y mitad para consultas.</p></div>
+    <div class="card"><h3>Por qué se reparte 50 · 30 · 20</h3><ul class="clean" style="margin-top:8px">
+      <li><b>Piedra flexible, la mitad:</b> es lo más nuevo y lo que nadie conoce. Necesita más veces en pantalla para que la gente entienda qué es y se anime a consultar.</li>
+      <li><b>Momo, un 30%:</b> es un revestimiento que la gente ya sabe usar; lo que hay que mostrar es su color y su textura. Necesita menos explicación.</li>
+      <li><b>Strufaldi, un 20%:</b> la gente ya está buscando renovar la pileta antes del verano. Con menos plata, bien concentrada en esas semanas, alcanza.</li>
+      <li>Si un producto trae muchas más consultas que otro, el reparto se ajusta los lunes <b>sin cambiar el total</b>.</li>
+    </ul></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>¿Por qué $600.000 y no otro monto?</h3><ul class="clean" style="margin-top:8px">
+      <li><b>Por qué no menos:</b> Meta necesita unos días de datos para aprender a quién mostrarle cada anuncio. Con muy poco por día, ese aprendizaje tarda y el anuncio llega a poca gente. Repartido en tres productos, cada uno necesita su mínimo.</li>
+      <li><b>Por qué no más:</b> el público de Santa Fe y alrededores es acotado. Con mucho más dinero, a la misma gente le aparecería demasiadas veces y cada consulta saldría más cara.</li>
+      <li><b>Por qué más al principio en piedra flexible:</b> en el lanzamiento hay que llegar a la mayor cantidad de gente nueva.</li>
+      <li><b>Por qué por día:</b> nunca se gasta todo de golpe. Se puede frenar o corregir en cualquier momento.</li>
+    </ul></div>
+    <div class="card"><h3>Impuestos: por qué se paga más que el presupuesto</h3><ul class="clean" style="margin-top:8px">
+      <li>El presupuesto que se carga en Meta es <b>sin impuestos</b>. El recibo de Meta muestra solo lo de los anuncios; los impuestos los suma la tarjeta al debitar.</li>
+      <li>Se cobran <b>IVA (21%)</b> por ser un servicio digital y <b>percepciones</b> (Ingresos Brutos de la provincia y otras según el medio de pago).</li>
+      <li><b>Dato real de la cuenta:</b> en los pagos anteriores, por cada $50.000 de anuncios se debitaron unos $65.000. Es decir, alrededor de <b>30% más</b>.</li>
+      <li>Por eso, <b>$600.000 de anuncios ≈ $780.000 en total</b>.</li>
+      <li><b>Si se prefiere que el total sea $600.000</b> con impuestos incluidos, los anuncios bajan a unos $460.000, con el mismo reparto: $230.000, $138.000 y $92.000.</li>
+    </ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Lo que estima Meta antes de arrancar</h3><p style="margin-top:8px">Al armar cada campaña, Meta muestra cuánta gente estima alcanzar por día. Ese dato se completa acá antes de lanzar:</p>
+    <div class="grid3" style="margin-top:10px"><p><span class="prod p-pf">Piedra flexible</span><br><span class="quote" style="font-size:1.05rem">Entre ____ y ____ por día</span></p><p><span class="prod p-mo">Momo</span><br><span class="quote" style="font-size:1.05rem">Entre ____ y ____ por día</span></p><p><span class="prod p-st">Strufaldi</span><br><span class="quote" style="font-size:1.05rem">Entre ____ y ____ por día</span></p></div>
+    <p class="small" style="margin-top:8px">Es una estimación de Meta, no una garantía: el resultado real se ve en los informes de cada lunes.</p></div>
+</div></section>
+
+<section class="block" id="rs-pago"><div class="wrap">
+  <header><p class="eyebrow">Cómo se paga</p><h2>Dos transferencias</h2></header>
+  <div class="grid2">
+    <div class="card"><ul class="clean">
+      <li>Como en las campañas anteriores, la empresa transfiere a la cuenta de Personal Pay que se usa para los anuncios, y desde ahí se paga la publicidad.</li>
+      <li>Se transfiere <b>el total con impuestos incluidos</b>, para cubrir todo lo que cobra Meta. Para no adelantar todo junto, en dos partes.</li>
+      <li>Se pone un <b>límite de gasto</b> en la cuenta publicitaria para que nunca se pase del total aprobado. Cada lunes, junto con los números, se muestra cuánto se gastó.</li>
+      <li class="small">Los comprobantes de Meta salen a nombre de quien paga. Si la empresa quiere usar ese IVA en su contabilidad, conviene consultarlo con el contador.</li>
+    </ul></div>
+    <div class="card"><div class="scroll"><table class="money"><thead><tr><th>Cuándo</th><th>Qué cubre</th><th style="text-align:right">Monto</th></tr></thead><tbody>
+      <tr><td><b>Antes del 12 nov</b></td><td>Del 12 al 29 de noviembre: piedra flexible $180.000, Momo $39.000 y Strufaldi $40.000 = $259.000 + 30%</td><td class="n">$336.700</td></tr>
+      <tr><td><b>Antes del 30 nov</b></td><td>Del 30 de noviembre al 23 de diciembre: piedra flexible $120.000, Momo $141.000 y Strufaldi $80.000 = $341.000 + 30%</td><td class="n">$443.300</td></tr>
+    </tbody><tfoot><tr><td colspan="2">Total</td><td class="n">$780.000</td></tr></tfoot></table></div></div>
+  </div>
+</div></section>
+
+<section class="block" id="rs-prometer"><div class="wrap">
+  <header><p class="eyebrow">Cómo medimos</p><h2>Qué se puede prometer y qué no</h2>
+  <p class="lead">Cada lunes, diez minutos de números de los tres productos: lo que funciona se repite y lo que no se cambia. El detalle de qué se mira está en cada plan.</p></header>
+  <div class="grid2">
+    <div class="card"><h3>Lo que sí</h3><ul class="clean" style="margin-top:8px"><li>Que los tres productos aparezcan muchas veces a la gente de Santa Fe y alrededores.</li><li>Que cada peso se pueda seguir: cuánta gente vio, cuántas veces y cuántos escribieron, por producto.</li><li>Que cada lunes se corrija: se deja lo que trae consultas y se pausa lo que no.</li><li>La estimación de alcance que da Meta antes de arrancar.</li></ul></div>
+    <div class="card"><h3>Lo que no</h3><ul class="clean" style="margin-top:8px"><li>Un número exacto de visitas o de consultas: el precio de cada anuncio cambia según cuánta gente está anunciando ese día.</li><li>Las ventas: dependen también de la atención por WhatsApp y en el local. La campaña trae las consultas; el seguimiento rápido las convierte en ventas.</li><li>Preguntar siempre: "¿Cómo nos conociste?" y "¿Por qué producto?".</li></ul></div>
+  </div>
+</div></section>
+
+<section class="block" id="rs-glosario"><div class="wrap">
+  <div class="card"><h3>Palabras que van a aparecer</h3>
+    <dl class="gloss">
+      <div><dt>Reproducciones</dt><dd>Cuántas veces miraron un reel promocionado. Es el objetivo de la parte de presencia.</dd></div>
+      <div><dt>Anuncio de mensajes</dt><dd>Un reel o carrusel promocionado con el botón «Enviar mensaje». Quien lo toca abre un chat de WhatsApp con nosotros.</dd></div>
+      <div><dt>Costo por conversación</dt><dd>Cuánto pagamos, en promedio, por cada persona que nos escribió desde un anuncio. Es el número más importante.</dd></div>
+      <div><dt>Alcance</dt><dd>Cuántas personas distintas vieron el anuncio.</dd></div>
+      <div><dt>Impresiones</dt><dd>Cuántas veces se mostró en total. Una persona puede verlo más de una vez.</dd></div>
+      <div><dt>Frecuencia</dt><dd>Cuántas veces, en promedio, lo vio cada persona. Si pasa de 3 o 4 por semana, conviene cambiar el anuncio.</dd></div>
+      <div><dt>Público</dt><dd>A quién se le muestra: zona, edad e intereses (decoración, construcción, piletas).</dd></div>
+      <div><dt>Retargeting</dt><dd>Volver a mostrarle un anuncio a quien ya vio nuestros videos o visitó la cuenta, porque es quien tiene más chances de comprar.</dd></div>
+      <div><dt>Fase de aprendizaje</dt><dd>Los primeros días de cada anuncio, mientras Meta aprende a quién le interesa. No conviene tocarlo durante esos días.</dd></div>
+      <div><dt>IVA y percepciones</dt><dd>Impuestos que se suman a cada cobro de la publicidad. Por eso el total pagado es mayor que el presupuesto cargado.</dd></div>
+      <div><dt>Límite de gasto</dt><dd>Un tope que se pone en la cuenta publicitaria para no gastar nunca más de lo aprobado.</dd></div>
+      <div><dt>Presupuesto diario</dt><dd>Lo máximo que se gasta por día. Se cambia o se pausa cuando queramos.</dd></div>
+    </dl>
+  </div>
+</div></section>
+
+<footer class="end" id="rs-arrancar"><div class="wrap">
+  <p class="eyebrow">Para arrancar</p><h2 style="margin-top:10px">Lo que hay que hacer estos días</h2>
+  <ol class="next" style="margin-top:20px">
+    <li><span><b>Martes 10:</b> aprobar el plan y reservar las placas para la pared de muestra.</span></li>
+    <li><span><b>Miércoles 11:</b> transferir la primera parte ($336.700), grabar lo mínimo de piedra flexible (1 hora), armar las plantillas de historias, pedir permiso a MAPEI y conseguir el recipiente transparente para Strufaldi.</span></li>
+    <li><span><b>Jueves 12:</b> a la mañana, colocación con el albañil y charla de MAPEI. A las 13:00 sale el primer carrusel, a las 19:00 el primer reel y arranca la publicidad de piedra flexible.</span></li>
+    <li><span><b>Viernes 13:</b> grabación grande: piedra flexible, Momo y Strufaldi en agua, más todas las voces en off.</span></li>
+    <li><span><b>Lunes 16:</b> sale el reel principal de piedra flexible. <b>Martes 17:</b> arranca Momo. <b>Viernes 20:</b> arranca Strufaldi.</span></li>
+  </ol>
+</div></footer>
+</div>
+
+<div class="view" id="v-piedra" hidden>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Plan de redes · Materiales del Litoral · Piedra flexible</p>
+      <h1 style="margin-top:14px">Es piedra.<span>Y se dobla.</span></h1>
+      <p class="lead" style="margin-top:20px">Seis semanas para que Santa Fe conozca la piedra flexible: muchos reels, historias todos los días, carruseles que enseñan y un probador en la web para verla en tu propia casa. Se publica lo mismo en Instagram, Facebook y los estados de WhatsApp.</p>
+      <div class="meta"><span>Arranca: jueves 12 de noviembre</span><span>Termina: miércoles 23 de diciembre</span></div>
+      <div class="facts">
+        <div><b>30</b><span>reels</span></div>
+        <div><b>8</b><span>carruseles</span></div>
+        <div><b>5</b><span>posteos de foto</span></div>
+        <div><b>6–10</b><span>historias por día</span></div>
+      </div>
+    </div>
+    <div class="slab-stage" aria-hidden="true">
+      <div>
+        <div class="slab"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="slab-caption">Placa 60 × 240 cm · piedra natural en lámina fina</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Secciones del plan">
+  <div class="wrap">
+    <a href="#pf-idea">La idea</a><a href="#pf-modelos">Modelos</a><a href="#pf-etapas">Etapas</a><a href="#pf-calendario">Calendario</a><a href="#pf-reels">Reels</a><a href="#pf-historias">Historias</a><a href="#pf-carruseles">Carruseles</a><a href="#pf-grabacion">Día de grabación</a><a href="#pf-inversion">Inversión</a><a href="#pf-medir">Cómo medimos</a>
+  </div>
+</nav>
+
+<section class="block" id="pf-idea"><div class="wrap">
+  <header><p class="eyebrow">La idea</p><h2>Mostrar lo que nadie cree hasta que lo ve</h2>
+  <p class="lead">La piedra flexible se vende sola cuando aparece en video: se dobla, se corta con cutter, una placa enorme se levanta con una mano y se pega sin obra. Toda la campaña gira alrededor de ese momento de sorpresa.</p></header>
+  <div class="grid3">
+    <div class="card"><p class="eyebrow">Frase de campaña</p><p class="quote" style="margin-top:10px">Es piedra.<br>Y se dobla.</p><p class="small" style="margin-top:10px">Va en el primer reel, en las historias y en los carruseles. Se repite siempre igual para que se recuerde.</p></div>
+    <div class="card"><p class="eyebrow">Tres cosas que todos tienen que saber</p><ul class="clean" style="margin-top:10px"><li><b>Es piedra natural real</b>, en una lámina finísima.</li><li><b>Se coloca sin obra</b>: se pega sobre la pared que ya tenés.</li><li><b>Está en Santa Fe</b>: vení a tocarla al showroom o escribinos.</li></ul></div>
+    <div class="card"><p class="eyebrow">Tono</p><p style="margin-top:10px">Cercano y seguro, como alguien que sabe del tema y está orgulloso de lo que muestra. Nunca hablamos de precio ni de promociones en redes: invitamos a consultar.</p><p class="small">Hashtags fijos: #piedraflexible #santafe #revestimientos #diseñodeinteriores #reformasinobra #materialesdellitoral</p></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Temas que se van alternando</h3><ul class="clean" style="margin-top:8px"><li><b>Sorpresa:</b> se dobla, se corta, pesa poco, es finísima.</li><li><b>Cómo se coloca:</b> paso a paso, con el colocador.</li><li><b>Los 5 modelos:</b> uno por uno, con su número y medida.</li><li><b>Ideas de uso:</b> respaldo de cama, columna, frente de mesada, barra, fachada, local.</li><li><b>Antes y después:</b> la pared de muestra del showroom.</li><li><b>Preguntas frecuentes:</b> ¿es piedra real?, ¿dónde se puede poner?, ¿cuánto rinde?</li></ul></div>
+    <div class="card"><h3>Reels en tres niveles</h3><ul class="clean" style="margin-top:8px"><li><b>Producción grande:</b> con voz en off y música, cuidado al detalle. Uno por semana.</li><li><b>Medianos:</b> un modelo, un tip o una pregunta, con voz o texto en pantalla.</li><li><b>Rápidos:</b> 6 a 10 segundos, estéticos, sin explicar, con sonido en tendencia. Varios por semana.</li></ul><p class="small" style="margin-top:8px">La web suma: cada reel puede terminar con "Probalo en tu casa" (el probador de ambientes de la página).</p></div>
+  </div>
+</div></section>
+
+<section class="block" id="pf-modelos"><div class="wrap">
+  <header><p class="eyebrow">Los protagonistas</p><h2>Cinco modelos, cada uno con su número</h2>
+  <p class="lead">Se venden por pieza. En todas las fotos y videos el modelo aparece con su nombre para que la consulta llegue directa.</p></header>
+  <div class="models">
+    <div class="model"><div class="sw" style="background:linear-gradient(160deg,#e9e6df,#cfcac0)"></div><div class="tx"><p class="num">Modelo 1</p><h3>Slate Off White</h3><p class="small">60 × 240 cm · rinde 1,44 m² por pieza</p></div></div>
+    <div class="model"><div class="sw" style="background:repeating-linear-gradient(0deg,#b8b2a7 0 22px,#a59e92 22px 24px),linear-gradient(#b8b2a7,#a59e92)"></div><div class="tx"><p class="num">Modelo 2</p><h3>Square Line Stone</h3><p class="small">60 × 240 cm · rinde 1,44 m² por pieza</p></div></div>
+    <div class="model"><div class="sw" style="background:repeating-linear-gradient(95deg,#4d4f50 0 6px,#3d3f40 6px 9px,#565859 9px 15px)"></div><div class="tx"><p class="num">Modelo 3</p><h3>Timber Mix Dark Grey</h3><p class="small">60 × 240 cm · rinde 1,44 m² por pieza</p></div></div>
+    <div class="model"><div class="sw" style="background:radial-gradient(80% 60% at 30% 30%,#a9a7a2,transparent 60%),linear-gradient(170deg,#8c8a85,#76746f)"></div><div class="tx"><p class="num">Modelo 4</p><h3>Lito Ash</h3><p class="small">60 × 120 cm · rinde 0,72 m² por pieza</p></div></div>
+    <div class="model"><div class="sw" style="background:repeating-linear-gradient(90deg,#8c8a85 0 14px,#6f6d68 14px 16px)"></div><div class="tx"><p class="num">Modelo 5</p><h3>Grooved Lito Ash</h3><p class="small">60 × 120 cm · rinde 0,72 m² por pieza</p></div></div>
+  </div>
+  <p class="small" style="margin-top:10px">Los colores de arriba son de referencia: en las piezas se usan siempre las fotos reales de cada placa.</p>
+</div></section>
+
+<section class="block" id="pf-etapas"><div class="wrap">
+  <header><p class="eyebrow">Recorrido</p><h2>Cuatro etapas en seis semanas</h2><p class="lead">Desde el primer día se vende: cada pieza dice qué es, dónde verla y cómo consultarla.</p></header>
+  <div class="phases">
+    <div class="phase"><p class="when">12 al 22 nov</p><h3>Lanzamiento</h3><p>Qué es, dónde verla y cómo consultarla. Reel principal el lunes 16. La publicidad paga arranca el 12.</p></div>
+    <div class="phase"><p class="when">23 al 29 nov</p><h3>Cómo se coloca</h3><p>Colocador, pared de muestra, antes y después, preguntas frecuentes.</p></div>
+    <div class="phase"><p class="when">30 nov al 13 dic</p><h3>Modelos e ideas</h3><p>Los 5 modelos, ideas de uso, el probador de la web, reacciones reales.</p></div>
+    <div class="phase"><p class="when">14 al 23 dic</p><h3>Antes de las fiestas</h3><p>"Renová antes de las fiestas", resumen del mes y saludo.</p></div>
+  </div>
+</div></section>
+
+<section class="block" id="pf-calendario"><div class="wrap">
+  <header><p class="eyebrow">Qué se sube y cuándo</p><h2>Calendario día por día</h2>
+  <p class="lead">Lo del feed (reels, carruseles y fotos) va a Instagram y Facebook a la misma hora. Las historias van también a los estados de WhatsApp. Tocá el nombre de un reel para ver su guion.</p></header>
+  <div class="weeks" role="group" aria-label="Semanas" data-weeks></div>
+  <div class="days" data-days></div>
+  <p class="small" style="margin-top:12px">Horarios: reels de lunes a viernes a las 19:00 y fines de semana a las 12:00; carruseles a las 13:00. Historias en cuatro tandas: 9:00, 13:00, 18:00 y 21:30.</p>
+</div></section>
+
+<section class="block" id="pf-reels"><div class="wrap">
+  <header><p class="eyebrow">Guiones</p><h2>Tres reels grandes, guionados segundo a segundo</h2>
+  <p class="lead">Son los que llevan más trabajo y se usan también como publicidad. El resto está en el banco de ideas de abajo, listo para grabar.</p></header>
+
+  <article class="script" id="R01"><header><p><span class="tag t-reel">Reel · Grande</span> <span class="tier">R01 · 40 s · lunes 16 de noviembre</span></p><h3>"Es piedra. Y se dobla."</h3><p class="small">Voz en off tuya + vos a cámara al final. Música que crece y explota cuando aparece la pared terminada (segundo 20).</p></header>
+    <div class="scroll"><table><thead><tr><th>Tiempo</th><th>Qué se ve</th><th>Texto en pantalla</th><th>Voz en off</th></tr></thead><tbody>
+      <tr><td>0–2 s</td><td>Primer plano: dos manos doblan la placa en arco, luz de costado.</td><td>Esto es piedra.</td><td class="vo">"Esto es piedra natural."</td></tr>
+      <tr><td>2–5 s</td><td>La placa sigue doblándose y vuelve a su forma.</td><td>Y se dobla.</td><td class="vo">"Y se dobla."</td></tr>
+      <tr><td>5–9 s</td><td>Corte con cutter, sonido real bien fuerte.</td><td>Se corta con cutter</td><td class="vo">"Se corta con un cutter."</td></tr>
+      <tr><td>9–13 s</td><td>Alguien levanta una placa de 60 × 240 con una sola mano.</td><td>60 × 240 cm, con una mano</td><td class="vo">"Y pesa tan poco que la levantás con una mano."</td></tr>
+      <tr><td>13–20 s</td><td>Time-lapse del colocador pegándola en la pared de muestra.</td><td>Sin obra · sin escombros</td><td class="vo">"Se pega directo sobre tu pared. Sin obra y sin escombros."</td></tr>
+      <tr><td>20–30 s</td><td>Revelación: pared terminada, paneo lento, después 2 ambientes (ambientación ilustrativa).</td><td>Piedra flexible</td><td class="vo">"Y el resultado es una pared de piedra de verdad."</td></tr>
+      <tr><td>30–36 s</td><td>Los 5 modelos, un segundo cada uno, con su nombre.</td><td>5 modelos · Santa Fe</td><td class="vo">"Tenemos cinco modelos en el showroom de Materiales del Litoral."</td></tr>
+      <tr><td>36–40 s</td><td>Vos a cámara, con la placa en la mano.</td><td>Escribinos por WhatsApp</td><td class="vo">"Vení a tocarla. Te va a sorprender."</td></tr>
+    </tbody></table></div>
+  </article>
+
+  <article class="script" id="R10"><header><p><span class="tag t-reel">Reel · Grande</span> <span class="tier">R10 · 35 s · lunes 23 de noviembre</span></p><h3>"De pared lisa a pared de piedra en una hora"</h3><p class="small">Se graba el jueves 12 a la mañana: celular fijo en trípode durante toda la colocación con el albañil y el adhesivo MAPEI. Sin voz: texto en pantalla y sonido en tendencia.</p></header>
+    <div class="scroll"><table><thead><tr><th>Tiempo</th><th>Qué se ve</th><th>Texto en pantalla</th><th>Sonido</th></tr></thead><tbody>
+      <tr><td>0–3 s</td><td>La pared lisa del showroom, plano general.</td><td>Hora 0 · pared común</td><td>Arranca la música.</td></tr>
+      <tr><td>3–25 s</td><td>Time-lapse: medir, cortar, poner el adhesivo MAPEI, pegar la primera placa, las siguientes.</td><td>Sin romper nada</td><td>Sonidos reales del cutter y la llana mezclados con la música.</td></tr>
+      <tr><td>25–30 s</td><td>Pared terminada, mismo encuadre.</td><td>Una hora después · pared de piedra</td><td>Golpe musical en el cambio.</td></tr>
+      <tr><td>30–35 s</td><td>Paneo de cerca y mano recorriendo la textura.</td><td>Piedra flexible · consultanos</td><td>Cierre.</td></tr>
+    </tbody></table></div>
+  </article>
+
+  <article class="script" id="R17"><header><p><span class="tag t-reel">Reel · Grande</span> <span class="tier">R17 · 50 s · lunes 30 de noviembre</span></p><h3>"Los 5 modelos, en 50 segundos"</h3><p class="small">Vos caminando por el showroom, hablando a cámara. Cada modelo tiene 8 segundos: nombre, medida, rendimiento y dónde queda mejor.</p></header>
+    <div class="scroll"><table><thead><tr><th>Tiempo</th><th>Qué se ve</th><th>Texto en pantalla</th><th>Lo que decís</th></tr></thead><tbody>
+      <tr><td>0–4 s</td><td>Vos frente a las placas.</td><td>¿Cuál va con tu casa?</td><td class="vo">"Te muestro los cinco modelos de piedra flexible que tenemos."</td></tr>
+      <tr><td>4–12 s</td><td>Slate Off White, de cerca y entera.</td><td>Slate Off White · 60 × 240</td><td class="vo">"Slate Off White: clara y luminosa, ideal para living y dormitorio."</td></tr>
+      <tr><td>12–20 s</td><td>Square Line Stone.</td><td>Square Line Stone · 60 × 240</td><td class="vo">"Square Line Stone: líneas marcadas, queda increíble en un frente o una barra."</td></tr>
+      <tr><td>20–28 s</td><td>Timber Mix Dark Grey.</td><td>Timber Mix Dark Grey · 60 × 240</td><td class="vo">"Timber Mix Dark Grey: oscura y con vetas, para un ambiente con carácter."</td></tr>
+      <tr><td>28–36 s</td><td>Lito Ash.</td><td>Lito Ash · 60 × 120</td><td class="vo">"Lito Ash: gris ceniza, la más versátil."</td></tr>
+      <tr><td>36–44 s</td><td>Grooved Lito Ash.</td><td>Grooved Lito Ash · 60 × 120</td><td class="vo">"Y Grooved Lito Ash, con relieve en líneas: textura pura."</td></tr>
+      <tr><td>44–50 s</td><td>Vos con las cinco detrás.</td><td>¿Cuál elegís? Comentá el número</td><td class="vo">"¿Cuál elegís? Comentá el número o escribinos por WhatsApp."</td></tr>
+    </tbody></table></div>
+    <p class="small" style="padding:0 18px 16px">Ajustá las descripciones de color y textura mirando las placas reales.</p>
+  </article>
+
+  <h3 style="margin-top:40px">Banco de reels</h3>
+  <p class="small" style="margin-top:6px">Cada uno tiene su gancho: la primera frase o imagen, que es lo que hace que la gente no siga de largo.</p>
+  <div class="scroll" style="margin-top:12px"><table class="bank" data-bank><thead><tr><th>Reel</th><th>Nivel</th><th>Cómo se hace</th><th>Gancho (primeros 2 segundos)</th><th>Duración</th></tr></thead><tbody></tbody></table></div>
+
+  <div class="card" style="margin-top:20px"><h3>Texto base para la voz en off de cada modelo (reels R05 a R09)</h3>
+    <p class="vo" style="margin-top:8px">"[Nombre del modelo]. Piedra natural en lámina, [cómo se ve: color y textura]. Una placa de [medida] rinde [1,44 / 0,72] m². Queda ideal en [living, dormitorio, frente de mesada, fachada]. Vení a verla al showroom o escribinos por WhatsApp."</p>
+</div>
+</div></section>
+
+<section class="block" id="pf-historias"><div class="wrap">
+  <header><p class="eyebrow">Todos los días</p><h2>Historias rápidas en cuatro tandas</h2>
+  <p class="lead">Seis a diez historias por día, repartidas en cuatro horarios y con plantillas fijas para que se reconozcan al instante.</p></header>
+  <div class="slots">
+    <div class="card slot"><p class="h">9:00</p><h3 style="margin-top:8px">Buen día</h3><p class="small">Foto del modelo del día con su nombre y el WhatsApp.</p></div>
+    <div class="card slot"><p class="h">13:00</p><h3 style="margin-top:8px">Que participen</h3><p class="small">Encuesta, quiz o deslizador. Lo que más respuestas trae.</p></div>
+    <div class="card slot"><p class="h">18:00</p><h3 style="margin-top:8px">Detrás de escena</h3><p class="small">Video corto en el local: alguien tocando la placa, una consulta, la pared de muestra.</p></div>
+    <div class="card slot"><p class="h">21:30</p><h3 style="margin-top:8px">Lo del día</h3><p class="small">Compartir el reel o carrusel del día y el link a la página o al probador.</p></div>
+  </div>
+  <h3 style="margin-top:32px">Plantillas</h3>
+  <div class="phones" style="margin-top:12px">
+    <div class="phone stone"><p class="k">A · Foto + WhatsApp</p><p class="big">Slate Off White<br>60 × 240</p><span class="pill">Escribinos</span></div>
+    <div class="phone paper"><p class="k">B · Encuesta</p><p class="big">¿Cuál va con tu living?</p><div class="poll"><span>Slate Off White</span><span>Timber Mix Dark Grey</span></div></div>
+    <div class="phone paper"><p class="k">C · Quiz</p><p class="big">¿Esto es piedra real?</p><div class="poll"><span>Sí</span><span>No, es imitación</span></div></div>
+    <div class="phone stone"><p class="k">D · Ya en el showroom</p><p class="big">Llegó la<br>piedra flexible</p><span class="pill">Vení a verla</span></div>
+    <div class="phone paper"><p class="k">E · Probador</p><p class="big">Probala en tu casa con una foto</p><span class="pill">Ver en la web</span></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Más ideas para variar</h3><ul class="clean" style="margin-top:8px"><li>Caja de preguntas los viernes y respuestas en video el lunes.</li><li>Deslizador "¿Cuánto te gusta?" sobre la textura en macro.</li><li>Antes y después de la pared de muestra.</li><li>Reposteo de clientes que te etiqueten.</li><li>"Modelo de la semana" los lunes, el mismo durante 7 días.</li></ul></div>
+  </div>
+</div></section>
+
+<section class="block" id="pf-carruseles"><div class="wrap">
+  <header><p class="eyebrow">Para guardar y compartir</p><h2>Siete carruseles que enseñan</h2>
+  <p class="lead">Los carruseles son lo que más se guarda. Formato 4:5, de 6 a 8 fotos, con la última invitando a consultar.</p></header>
+  <div class="grid2" data-carousels></div>
+</div></section>
+
+<section class="block" id="pf-grabacion"><div class="wrap">
+  <header><p class="eyebrow">Producción</p><h2>Día de grabación: más de 20 piezas por modelo</h2>
+  <p class="lead">Con estos días de grabación sale el material de casi toda la campaña: más de 20 piezas por modelo entre fotos y videos.</p></header>
+  <div class="grid3">
+    <div class="card"><p class="eyebrow">Miércoles 11 nov · 1 hora</p><h3 style="margin-top:6px">Lo mínimo para arrancar</h3><p class="small">Placa levantada con una mano, corte con cutter y macro de textura para los primeros días.</p></div>
+    <div class="card"><p class="eyebrow">Viernes 13 nov · 4 horas</p><h3 style="margin-top:6px">Grabación grande</h3><p class="small">Los 5 modelos completos, tus partes a cámara y todas las voces en off.</p></div>
+    <div class="card"><p class="eyebrow">Jueves 12 nov · mañana</p><h3 style="margin-top:6px">Colocación y charla de MAPEI</h3><p class="small">Colocación con el albañil (una hora): time-lapse, paso a paso, antes y después. Y la charla de MAPEI sobre el adhesivo.</p></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap"><h3>Tomas por modelo</h3><span class="progress" data-prog></span></div>
+      <div class="modelpick" data-modelpick role="group" aria-label="Modelo" style="margin-top:10px"></div>
+      <ul class="check" data-shots></ul>
+    </div>
+    <div class="card">
+      <h3>Tomas generales</h3>
+      <ul class="check" data-general style="margin-top:8px"></ul>
+      <h3 style="margin-top:18px">Equipo</h3>
+      <ul class="check" data-gear style="margin-top:8px"></ul>
+    </div>
+  </div>
+</div></section>
+
+<section class="block" id="pf-inversion"><div class="wrap">
+  <header><p class="eyebrow">Inversión de piedra flexible</p><h2>La mitad del presupuesto, para que aparezca en todos lados</h2>
+  <p class="lead">Es lo más nuevo y lo que nadie conoce, por eso se lleva la parte más grande. La publicidad tiene dos partes que trabajan juntas: una para estar en todos lados y otra para convertir esa atención en mensajes de WhatsApp. Se controla día a día: se puede pausar, bajar o subir en cualquier momento.</p></header>
+  <div class="grid2">
+    <div class="card"><h3>Publicidad en Instagram y Facebook</h3><div class="scroll" style="margin-top:10px"><table class="money"><thead><tr><th>Parte</th><th>Qué hace</th><th style="text-align:right">Monto</th></tr></thead><tbody>
+      <tr><td><b>1. Presencia</b><br><span class="small">Reproducciones de reels</span></td><td>Los reels se muestran a toda la zona, varias veces por semana: es lo que hace que "aparezca en todos lados". Es lo más barato por persona y suma seguidores.<br><span class="small">12 al 29 nov: $5.000 por día · 30 nov al 23 dic: $2.500 por día</span></td><td class="n">$150.000</td></tr>
+      <tr><td><b>2. Consultas</b><br><span class="small">Mensajes por WhatsApp</span></td><td>Anuncio con el botón «Enviar mensaje», mostrado sobre todo a quienes ya vieron los reels: la gente que ya conoce el producto y está más cerca de escribir.<br><span class="small">12 al 29 nov: $5.000 por día · 30 nov al 23 dic: $2.500 por día</span></td><td class="n">$150.000</td></tr>
+      <tr><td colspan="2">Anuncios de piedra flexible (6 semanas) · $10.000 por día en el lanzamiento y $5.000 después</td><td class="n">$300.000</td></tr>
+      <tr><td colspan="2">Impuestos que suma la tarjeta (alrededor de 30%)</td><td class="n">$90.000</td></tr>
+    </tbody><tfoot><tr><td colspan="2">Total de piedra flexible</td><td class="n">$390.000</td></tr></tfoot></table></div>
+    <p class="small" style="margin-top:10px">Público: Santa Fe, Santo Tomé, Paraná y 40 km alrededor; de 28 a 60 años; interesados en decoración, diseño de interiores, arquitectura, remodelación y construcción. Sumá también a quienes ya interactuaron con la cuenta.</p></div>
+    <div class="card"><h3>Producción</h3><ul class="clean" style="margin-top:8px"><li><b>Pared de muestra en el showroom</b> (2 a 3 placas y la colocación): es la mejor inversión de la campaña. Sirve para grabar y para vender todos los días.</li><li><b>Micrófono corbatero inalámbrico</b> para celular: la voz se escucha clara.</li><li><b>Panel LED con difusor y trípode</b>: luz de costado y tomas firmes.</li><li><b>MAPEI:</b> publicar los reels de la charla como colaboración con su cuenta, así aparecen también a sus seguidores.</li><li><b>Una o dos arquitectas o decoradoras de Santa Fe</b> con buena llegada: les ofrecés colocar piedra flexible en un rincón de su casa o estudio a cambio de que lo muestren.</li></ul><p class="small" style="margin-top:8px">Montos a cotizar en Santa Fe. El micrófono, la luz y el trípode sirven también para Momo y Strufaldi.</p></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Por qué dos partes y no solo anuncios de WhatsApp</h3><ul class="clean" style="margin-top:8px">
+      <li><b>Casi nadie escribe la primera vez que ve algo nuevo.</b> La piedra flexible no es conocida: la gente necesita verla varias veces (que se dobla, cómo queda, que está en Santa Fe) antes de animarse a consultar.</li>
+      <li><b>La parte de presencia hace el trabajo pesado y barato:</b> que la vea mucha gente, muchas veces. Ahí "somos pesados" con la piedra flexible.</li>
+      <li><b>La parte de consultas aprovecha esa atención:</b> el anuncio de WhatsApp se le muestra sobre todo a quien ya miró los videos. Por eso escribe más gente y cada consulta sale más barata que mostrárselo a desconocidos.</li>
+      <li><b>Ser "pesados" tiene un límite:</b> hasta 3 o 4 veces por semana por persona suma; más que eso cansa. Por eso los reels se van rotando.</li>
+    </ul></div>
+    <div class="card"><h3>¿Cómo sabemos si funciona?</h3><ul class="clean" style="margin-top:8px">
+      <li>El número principal es <b>cuántas personas escribieron por WhatsApp</b> y cuánto costó cada una. Meta lo muestra en el momento.</li>
+      <li><b>Primeros 5 días:</b> se prueban 2 o 3 anuncios en cada parte. Al sexto día se deja el que mejor funcionó y se pausan los otros.</li>
+      <li><b>Cada lunes</b> se revisan los números. Si funciona muy bien, se puede subir; si no convence, se baja o se cambia el anuncio.</li>
+      <li class="small"><b>Ejemplo para entender la cuenta</b> (no son datos reales): si cada conversación costara $2.000, con los $150.000 de consultas escribirían unas 75 personas, además de todas las que escriban por ver los reels sin anuncio.</li>
+    </ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>¿Por qué no se promocionan todos los reels?</h3>
+    <div class="grid2" style="margin-top:8px">
+      <div><ul class="clean">
+        <li><b>Todos los reels se publican</b> y se ven sin pagar. La publicidad solo amplifica algunos.</li>
+        <li><b>Repartir la plata entre 30 reels no sirve:</b> a cada uno le tocaría tan poco que Meta no llegaría a aprender a quién mostrarlo, y ninguno funcionaría bien.</li>
+        <li><b>Se promocionan los que ya demostraron que gustan:</b> en las primeras 24 a 48 horas se mira qué reels mira la gente hasta el final, guarda y comparte. Esos son los que se pagan.</li>
+      </ul></div>
+      <div><ul class="clean">
+        <li><b>Sí, hay varios al mismo tiempo:</b> 2 o 3 en presencia y 2 o 3 en consultas. Meta reparte solo la plata hacia el que mejor rinde dentro de cada parte.</li>
+        <li><b>Se rotan cada semana:</b> los nuevos que funcionen entran y los que ya vio mucha gente salen, para no cansar.</li>
+        <li><b>El reel principal (lunes 16) queda fijo</b> en consultas durante todo el lanzamiento, porque es el que mejor explica el producto.</li>
+      </ul></div>
+    </div>
+  </div>
+  <p class="small" style="margin-top:14px">Impuestos, cómo se paga, qué se puede prometer y el glosario están en el <a href="#" data-go="resumen">Resumen</a>.</p>
+</div></section>
+
+<section class="block" id="pf-medir"><div class="wrap">
+  <header><p class="eyebrow">Cómo medimos</p><h2>Cada lunes, diez minutos de números</h2>
+  <p class="lead">Lo que funciona se repite y lo que no se cambia. Estos números se miran cada lunes y se anotan en una planilla.</p></header>
+  <div class="grid3">
+    <div class="card"><h3>En Instagram y Facebook</h3><ul class="clean" style="margin-top:8px"><li>Reproducciones de cada reel.</li><li>Cuánta gente lo mira hasta el final.</li><li>Guardados y compartidos (lo que más importa).</li><li>Seguidores nuevos y mensajes directos.</li></ul></div>
+    <div class="card"><h3>En la página web</h3><ul class="clean" style="margin-top:8px"><li>Visitas a la categoría Piedra flexible.</li><li>Consultas por WhatsApp desde el probador de ambientes (en Estadísticas del panel aparece como "Probador de ambientes").</li><li>Productos de piedra flexible más vistos.</li></ul></div>
+    <div class="card"><h3>En el local</h3><ul class="clean" style="margin-top:8px"><li>Consultas por WhatsApp que mencionan piedra flexible.</li><li>Gente que viene al showroom a verla.</li><li>Presupuestos y ventas.</li><li>Preguntar siempre: "¿Cómo nos conociste?"</li></ul></div>
+  </div>
+</div></section>
+
+<footer class="end"><div class="wrap">
+  <p class="eyebrow">Para arrancar</p><h2 style="margin-top:10px">Piedra flexible, esta semana</h2>
+  <ol class="next" style="margin-top:20px">
+    <li><span><b>Martes 10:</b> aprobar el plan y reservar las placas para la pared de muestra.</span></li>
+    <li><span><b>Miércoles 11:</b> grabar lo mínimo (1 hora), armar las plantillas de historias y pedir permiso a MAPEI para grabar la charla.</span></li>
+    <li><span><b>Jueves 12:</b> a la mañana, grabar la colocación con el albañil y la charla de MAPEI (con historias en vivo). A las 13:00 sale el carrusel «¿Qué es la piedra flexible?», a las 19:00 el primer reel y arranca la publicidad paga.</span></li>
+    <li><span><b>Viernes 13:</b> grabación grande y voces en off; editar el reel principal el fin de semana.</span></li>
+    <li><span><b>Lunes 16:</b> sale el reel principal «Es piedra. Y se dobla.» y pasa a ser el anuncio principal.</span></li>
+  </ol>
+</div></footer>
+
+<div class="wrap" style="padding-bottom:60px"><p class="eyebrow">Ver otro plan</p><div class="others"><button type="button" data-go="resumen">Resumen</button><button type="button" data-go="momo">Momo</button><button type="button" data-go="strufaldi">Strufaldi</button></div></div></div>
+
+<div class="view" id="v-momo" hidden>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Plan de redes · Materiales del Litoral · Momo</p>
+      <h1 style="margin-top:14px">Color que<span>se toca.</span></h1>
+      <p class="lead" style="margin-top:20px">Cinco semanas para mostrar el revestimiento con más personalidad del showroom: piezas con relieve y esmalte, en colores que no se consiguen en todos lados. Momo sale los martes y viernes (y algunos jueves y sábados) a las 17:00, para no pisarse con la piedra flexible.</p>
+      <div class="meta"><span>Arranca: martes 17 de noviembre</span><span>Termina: martes 22 de diciembre</span></div>
+      <div class="facts"><div><b>11</b><span>reels</span></div><div><b>3</b><span>carruseles</span></div><div><b>1</b><span>posteo de foto</span></div><div><b>2–3</b><span>historias, mar y vie</span></div></div>
+    </div>
+    <div class="tiles-stage" aria-hidden="true"><div style="display:flex;flex-direction:column;align-items:center"><div class="tiles"><i style="--c:#9fd1c0;--d:0.00s"></i><i style="--c:#1f6f55;--d:0.25s"></i><i style="--c:#f1f0ea;--d:0.50s"></i><i style="--c:#7f9a86;--d:0.75s"></i><i style="--c:#9cc7c0;--d:1.00s"></i><i style="--c:#b49b7c;--d:0.00s"></i><i style="--c:#7d2f35;--d:0.25s"></i><i style="--c:#d9c7a6;--d:0.50s"></i><i style="--c:#6f8a5c;--d:0.75s"></i><i style="--c:#ece6d6;--d:1.00s"></i><i style="--c:#d8c9a8;--d:0.00s"></i><i style="--c:#a7b07c;--d:0.25s"></i><i style="--c:#e9a593;--d:0.50s"></i><i style="--c:#d9c39a;--d:0.75s"></i><i style="--c:#1f6f55;--d:1.00s"></i></div><p class="slab-caption">5 líneas · 14 colores · relieve y esmalte</p></div></div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Secciones del plan de Momo">
+  <div class="wrap">
+    <a href="#mo-idea">La idea</a><a href="#mo-modelos">Líneas</a><a href="#mo-etapas">Etapas</a><a href="#mo-calendario">Calendario</a><a href="#mo-reels">Reels</a><a href="#mo-historias">Historias</a><a href="#mo-carruseles">Carruseles</a><a href="#mo-grabacion">Grabación</a><a href="#mo-inversion">Inversión</a><a href="#mo-medir">Cómo medimos</a>
+  </div>
+</nav>
+
+<section class="block" id="mo-idea"><div class="wrap">
+  <header><p class="eyebrow">La idea</p><h2>Que den ganas de tocarlo</h2>
+  <p class="lead">Momo se vende por los ojos: el brillo del esmalte cuando se mueve la luz, el relieve de las escamas y las varillas, y colores con carácter. No hace falta explicar cómo se coloca (la gente ya sabe usar un revestimiento): hay que mostrar cómo se ve.</p></header>
+  <div class="grid3">
+    <div class="card"><p class="eyebrow">Frase de campaña</p><p class="quote" style="margin-top:10px">Color que<br>se toca.</p><p class="small" style="margin-top:10px">Va en el reel principal, en las historias y en los carruseles.</p></div>
+    <div class="card"><p class="eyebrow">Tres cosas que todos tienen que saber</p><ul class="clean" style="margin-top:10px"><li><b>Cinco líneas con relieve:</b> escamas, varillas y listones.</li><li><b>14 colores</b>: verdes, bordo, rosa, arena, beige y blancos.</li><li><b>Para cocinas, baños y barras</b> con personalidad.</li></ul></div>
+    <div class="card"><p class="eyebrow">Tono</p><p style="margin-top:10px">Cálido y de diseño: como mostrarle algo lindo a una amiga. Nunca hablamos de precio en redes: invitamos a consultar.</p><p class="small">Hashtags: #momo #revestimientos #azulejos #cocinasconestilo #diseñodeinteriores #santafe #materialesdellitoral</p></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Temas que se van alternando</h3><ul class="clean" style="margin-top:8px"><li><b>Textura:</b> la luz moviéndose sobre el esmalte y el relieve.</li><li><b>Las líneas, una por una:</b> nombre, medida y colores.</li><li><b>Combinaciones:</b> qué color con qué mesada, madera o grifería.</li><li><b>Dónde queda:</b> cocina, baño, barra, frente de mesada.</li><li><b>El probador de la web:</b> probarlo en la foto de tu cocina.</li></ul></div>
+    <div class="card"><h3>Cómo convive con la piedra flexible</h3><ul class="clean" style="margin-top:8px"><li>La piedra flexible es la protagonista y tiene los reels de las 19:00. <b>Momo sale a las 17:00</b>, sobre todo martes y viernes.</li><li>Un solo reel grande (el martes 1 de diciembre) y el resto medianos y rápidos.</li><li>La consulta por WhatsApp desde la web <b>llega con el color elegido</b>: así se sabe qué color gusta más.</li></ul></div>
+  </div>
+</div></section>
+
+<section class="block" id="mo-modelos"><div class="wrap">
+  <header><p class="eyebrow">Los protagonistas</p><h2>Cinco líneas, catorce colores</h2>
+  <p class="lead">En todas las fotos y videos la pieza aparece con el nombre de la línea y del color, y el código si se puede, para que la consulta llegue directa.</p></header>
+  <div class="models">
+    <div class="model"><div class="sw" style="background:radial-gradient(circle at 25% 100%,transparent 0 22px,#a9d3c3 23px 30px,transparent 31px) 0 0/50px 34px,radial-gradient(circle at 75% 100%,transparent 0 22px,#1f8f6c 23px 30px,transparent 31px) 0 0/50px 34px,#e8ece8"></div><div class="tx"><p class="num">Línea 1</p><h3>Fawn Series</h3><p class="small">Escamas · 25,9 × 27,3 cm</p><p class="small">Verde agua <span style="font-family:var(--mono);font-size:.72rem">HFS06164A</span> · Verde oscuro <span style="font-family:var(--mono);font-size:.72rem">HFSBA6022A</span> · Blanco <span style="font-family:var(--mono);font-size:.72rem">HFS6740A</span></p><div class="dots"><i style="background:#9fd1c0" title="Verde agua"></i><i style="background:#1f6f55" title="Verde oscuro"></i><i style="background:#f1f0ea" title="Blanco"></i></div></div></div>
+    <div class="model"><div class="sw" style="background:repeating-linear-gradient(90deg,#7f9a86 0 13px,#5f7a66 13px 15px)"></div><div class="tx"><p class="num">Línea 2</p><h3>Flute</h3><p class="small">Varillas · 21,5 × 30,5 cm</p><p class="small">Verde <span style="font-family:var(--mono);font-size:.72rem">FL09</span> · Verde celeste <span style="font-family:var(--mono);font-size:.72rem">FL08</span> · Beige oscuro <span style="font-family:var(--mono);font-size:.72rem">FL03</span></p><div class="dots"><i style="background:#7f9a86" title="Verde"></i><i style="background:#9cc7c0" title="Verde celeste"></i><i style="background:#b49b7c" title="Beige oscuro"></i></div></div></div>
+    <div class="model"><div class="sw" style="background:repeating-linear-gradient(90deg,#c97a6a 0 12px,#a85e50 12px 14px)"></div><div class="tx"><p class="num">Línea 3</p><h3>Chalk</h3><p class="small">Varillas rectas · 28,6 × 26 cm</p><p class="small">Bordo <span style="font-family:var(--mono);font-size:.72rem">CH04</span> · Beige <span style="font-family:var(--mono);font-size:.72rem">CH05</span> · Verde <span style="font-family:var(--mono);font-size:.72rem">CH03</span></p><div class="dots"><i style="background:#7d2f35" title="Bordo"></i><i style="background:#d9c7a6" title="Beige"></i><i style="background:#6f8a5c" title="Verde"></i></div></div></div>
+    <div class="model"><div class="sw" style="background:radial-gradient(#3b3b3b 0.8px,transparent 1.2px) 0 0/9px 11px,linear-gradient(#ece6d6,#e2d6b8)"></div><div class="tx"><p class="num">Línea 4</p><h3>Pura</h3><p class="small">Listón · 0,5 × 27,5 cm</p><p class="small">Crudo <span style="font-family:var(--mono);font-size:.72rem">PU01</span> · Beige <span style="font-family:var(--mono);font-size:.72rem">PU02</span></p><div class="dots"><i style="background:#ece6d6" title="Crudo"></i><i style="background:#d8c9a8" title="Beige"></i></div></div></div>
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,#a7b07c 0 33%,#e9a593 33% 66%,#d9c39a 66%)"></div><div class="tx"><p class="num">Línea 5</p><h3>Ancient</h3><p class="small">Listón · 0,6 × 26 cm</p><p class="small">Verde <span style="font-family:var(--mono);font-size:.72rem">GU09</span> · Rosa <span style="font-family:var(--mono);font-size:.72rem">GU07</span> · Arena <span style="font-family:var(--mono);font-size:.72rem">GU02</span></p><div class="dots"><i style="background:#a7b07c" title="Verde"></i><i style="background:#e9a593" title="Rosa"></i><i style="background:#d9c39a" title="Arena"></i></div></div></div>
+  </div>
+  <p class="small" style="margin-top:10px">Los colores de arriba son de referencia: en las piezas se usan siempre las fotos reales.</p>
+</div></section>
+
+<section class="block" id="mo-etapas"><div class="wrap">
+  <header><p class="eyebrow">Recorrido</p><h2>Cuatro etapas en cinco semanas</h2><p class="lead">Arranca cuando la piedra flexible ya está presentada, y crece en diciembre, cuando la gente piensa en renovar antes de las fiestas.</p></header>
+  <div class="phases">
+    <div class="phase"><p class="when">17 al 22 nov</p><h3>Presentación</h3><p>"Llegó Momo": la textura con luz y el carrusel con las 5 líneas.</p></div>
+    <div class="phase"><p class="when">23 al 29 nov</p><h3>Textura</h3><p>Las escamas Fawn y las varillas Flute de cerca.</p></div>
+    <div class="phase"><p class="when">30 nov al 13 dic</p><h3>Reel principal y colores</h3><p>"Color que se toca" (martes 1), Flute y Chalk, y qué color va con tu cocina.</p></div>
+    <div class="phase"><p class="when">14 al 22 dic</p><h3>Antes de las fiestas</h3><p>Los listones, el probador de la web y combinaciones para renovar la cocina.</p></div>
+  </div>
+</div></section>
+
+<section class="block" id="mo-calendario"><div class="wrap">
+  <header><p class="eyebrow">Qué se sube y cuándo</p><h2>Calendario día por día</h2>
+  <p class="lead">Lo del feed va a Instagram y Facebook a las 17:00. Las historias van también a los estados de WhatsApp. Tocá el nombre de un reel para ver su guion o su gancho.</p></header>
+  <div class="weeks" role="group" aria-label="Semanas" data-weeks></div>
+  <div class="days" data-days></div>
+  <p class="small" style="margin-top:12px">Horario de Momo: 17:00. La piedra flexible sale a las 13:00 (carruseles) y 19:00 (reels), y Strufaldi a las 16:00, así nunca salen dos cosas juntas.</p>
+</div></section>
+
+<section class="block" id="mo-reels"><div class="wrap">
+  <header><p class="eyebrow">Guiones</p><h2>Un reel grande, guionado segundo a segundo</h2>
+  <p class="lead">Es el que lleva más trabajo y se usa también como publicidad. El resto está en el banco de ideas de abajo, listo para grabar.</p></header>
+  <article class="script" id="M06"><header><p><span class="prod p-mo">Momo</span> <span class="tag t-reel">Reel · Grande</span> <span class="tier">M06 · 45 s · martes 1 de diciembre</span></p><h3>"Momo: color que se toca"</h3><p class="small">Vos en el showroom frente a las muestras, más primeros planos de luz moviéndose sobre cada pieza. Música suave que acompaña.</p></header>
+    <div class="scroll"><table><thead><tr><th>Tiempo</th><th>Qué se ve</th><th>Texto en pantalla</th><th>Lo que decís</th></tr></thead><tbody>
+      <tr><td>0–3 s</td><td>Mano que recorre las escamas Fawn verde oscuro, el brillo se mueve.</td><td>Color que se toca</td><td class="vo">"Hay revestimientos que se miran… y otros que dan ganas de tocar."</td></tr>
+      <tr><td>3–11 s</td><td>Fawn Series: verde agua, verde oscuro y blanco.</td><td>Fawn · escamas</td><td class="vo">"Fawn: escamas con esmalte brillante. En verde agua, verde oscuro o blanco."</td></tr>
+      <tr><td>11–19 s</td><td>Flute: dedo recorriendo las varillas redondeadas.</td><td>Flute · varillas</td><td class="vo">"Flute: varillas con relieve, en verde, verde celeste y beige oscuro."</td></tr>
+      <tr><td>19–27 s</td><td>Chalk: los tres colores uno al lado del otro.</td><td>Chalk · bordo, beige, verde</td><td class="vo">"Chalk: varillas rectas en bordo, beige y verde."</td></tr>
+      <tr><td>27–36 s</td><td>Pura y Ancient: listones combinados sobre la mesa.</td><td>Pura · Ancient</td><td class="vo">"Y para combinar, los listones Pura y Ancient: crudo, beige, verde, rosa y arena."</td></tr>
+      <tr><td>36–45 s</td><td>Vos con las muestras detrás.</td><td>¿Cuál es tu color?</td><td class="vo">"Para una cocina, un baño o una barra con personalidad. Vení a verlos o escribinos."</td></tr>
+    </tbody></table></div>
+  </article>
+  <h3 style="margin-top:40px">Banco de reels</h3>
+  <p class="small" style="margin-top:6px">Cada uno tiene su gancho: la primera frase o imagen, que es lo que hace que la gente no siga de largo. Los marcados como "Extra" quedan de reserva para reemplazar alguno o sumar si hay tiempo.</p>
+  <div class="scroll" style="margin-top:12px"><table class="bank" data-bank><thead><tr><th>Reel</th><th>Nivel</th><th>Cómo se hace</th><th>Gancho (primeros 2 segundos)</th><th>Duración</th></tr></thead><tbody></tbody></table></div>
+  <div class="card" style="margin-top:20px"><h3>Texto base para la voz en off de cada línea (reels M02 a M05)</h3>
+    <p class="vo" style="margin-top:8px">"[Nombre de la línea]. [Cómo es: escamas, varillas o listón], con esmalte [brillante / mate]. Viene en [colores]. Queda ideal en [cocina, baño, barra]. Vení a verla al showroom o escribinos por WhatsApp."</p>
+  </div>
+</div></section>
+
+<section class="block" id="mo-historias"><div class="wrap">
+  <header><p class="eyebrow">En las historias</p><h2>Momo, martes y viernes</h2>
+  <p class="lead">Las historias diarias siguen con piedra flexible. Los martes y viernes se suman 2 o 3 historias de Momo, en las mismas tandas.</p></header>
+  <div class="slots">
+    <div class="card slot"><p class="h">9:00</p><h3 style="margin-top:8px">Color del día</h3><p class="small">Foto de una pieza con el nombre del color y el WhatsApp.</p></div>
+    <div class="card slot"><p class="h">13:00</p><h3 style="margin-top:8px">Que elijan</h3><p class="small">Encuesta entre dos colores: "¿Verde o bordo?".</p></div>
+    <div class="card slot"><p class="h">18:00</p><h3 style="margin-top:8px">La luz</h3><p class="small">Video de 5 segundos: una mano que mueve la pieza y el brillo cambia.</p></div>
+    <div class="card slot"><p class="h">21:30</p><h3 style="margin-top:8px">Lo del día</h3><p class="small">Compartir el reel o carrusel de Momo y el link a la web o al probador.</p></div>
+  </div>
+  <h3 style="margin-top:32px">Plantillas</h3>
+  <div class="phones n3" style="margin-top:12px">
+    <div class="phone glaze"><p class="k">A · Color del día</p><p class="big">Fawn<br>verde oscuro</p><span class="pill">Escribinos</span></div>
+    <div class="phone paper"><p class="k">B · Encuesta</p><p class="big">¿Cuál va con tu cocina?</p><div class="poll"><span>Chalk bordo</span><span>Flute verde celeste</span></div></div>
+    <div class="phone paper"><p class="k">C · Probador</p><p class="big">Probalo en la foto de tu cocina</p><span class="pill">Ver en la web</span></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Más ideas para variar</h3><ul class="clean" style="margin-top:8px"><li>Deslizador "¿Cuánto te gusta?" sobre el brillo de las escamas.</li><li>"Adiviná el nombre del color" con quiz.</li><li>Reposteo de clientes o arquitectas que lo usen.</li><li>Una pieza de Momo junto a la piedra flexible: "¿Combinan?".</li></ul></div>
+  </div>
+</div></section>
+
+<section class="block" id="mo-carruseles"><div class="wrap">
+  <header><p class="eyebrow">Para guardar y compartir</p><h2>Tres carruseles que ayudan a elegir</h2>
+  <p class="lead">Los carruseles son lo que más se guarda. Formato 4:5, de 6 a 8 fotos, con la última invitando a consultar.</p></header>
+  <div class="grid2" data-carousels></div>
+</div></section>
+
+<section class="block" id="mo-grabacion"><div class="wrap">
+  <header><p class="eyebrow">Producción</p><h2>Grabación: una hora el viernes 13</h2>
+  <p class="lead">Se graba dentro de la grabación grande del viernes 13, después de la piedra flexible. La clave es la luz de costado: es lo que hace brillar el esmalte y marca el relieve.</p></header>
+  <div class="grid3">
+    <div class="card"><p class="eyebrow">Viernes 13 nov · 1 hora</p><h3 style="margin-top:6px">Las 5 líneas</h3><p class="small">Cada color sobre una base neutra, con luz de costado. Primero fotos, después videos.</p></div>
+    <div class="card"><p class="eyebrow">Viernes 13 nov · 15 min</p><h3 style="margin-top:6px">Vos a cámara</h3><p class="small">Las partes del reel principal (M06) y del M12.</p></div>
+    <div class="card"><p class="eyebrow">Cuando haya tiempo</p><h3 style="margin-top:6px">Combinaciones y fiestas</h3><p class="small">Las piezas junto a madera, mármol y griferías (M09, MC3) y la toma navideña (M13).</p></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap"><h3>Tomas por línea</h3><span class="progress" data-prog></span></div>
+      <div class="modelpick" data-modelpick role="group" aria-label="Líneas" style="margin-top:10px"></div>
+      <ul class="check" data-shots></ul>
+    </div>
+    <div class="card">
+      <h3>Tomas generales</h3>
+      <ul class="check" data-general style="margin-top:8px"></ul>
+      <h3 style="margin-top:18px">Equipo</h3>
+      <ul class="check" data-gear style="margin-top:8px"></ul>
+    </div>
+  </div>
+</div></section>
+
+<section class="block" id="mo-inversion"><div class="wrap">
+  <header><p class="eyebrow">Inversión de Momo</p><h2>El 30% del presupuesto, más fuerte en diciembre</h2>
+  <p class="lead">Momo necesita menos explicación que la piedra flexible: la gente ya sabe usar un revestimiento. Lo que hay que lograr es que lo vea muchas veces y que escriba. Arranca más tranquilo y sube en diciembre, cuando la gente renueva antes de las fiestas.</p></header>
+  <div class="grid2">
+    <div class="card"><h3>Publicidad en Instagram y Facebook</h3><div class="scroll" style="margin-top:10px"><table class="money"><thead><tr><th>Parte</th><th>Qué hace</th><th style="text-align:right">Monto</th></tr></thead><tbody>
+      <tr><td><b>1. Presencia</b><br><span class="small">Reproducciones de reels</span></td><td>Los reels de Momo (sobre todo los de textura y el reel principal) se muestran a toda la zona.</td><td class="n">$90.000</td></tr>
+      <tr><td><b>2. Consultas</b><br><span class="small">Mensajes por WhatsApp</span></td><td>Anuncio con el botón «Enviar mensaje», sobre todo para quienes ya vieron los reels de Momo. Desde el martes 1, el reel principal queda fijo acá.</td><td class="n">$90.000</td></tr>
+      <tr><td colspan="2">Anuncios de Momo · 17 al 29 nov: $3.000 por día · 30 nov al 23 dic: $5.875 por día (mitad y mitad entre las dos partes)</td><td class="n">$180.000</td></tr>
+      <tr><td colspan="2">Impuestos que suma la tarjeta (alrededor de 30%)</td><td class="n">$54.000</td></tr>
+    </tbody><tfoot><tr><td colspan="2">Total de Momo</td><td class="n">$234.000</td></tr></tfoot></table></div>
+    <p class="small" style="margin-top:10px">Público: Santa Fe, Santo Tomé, Paraná y 40 km alrededor; de 28 a 60 años; interesados en decoración, diseño de interiores, cocinas, remodelación y arquitectura. Sumá también a quienes ya interactuaron con la cuenta.</p></div>
+    <div class="card"><h3>Qué se promociona</h3><ul class="clean" style="margin-top:8px"><li><b>17 al 30 nov:</b> el reel de la luz sobre las escamas (M01) y el carrusel de las 5 líneas (MC1).</li><li><b>Desde el martes 1 de diciembre:</b> el reel principal "Color que se toca" (M06) en consultas, todo el mes.</li><li><b>En presencia</b> se rotan los reels que más se miran hasta el final y más se guardan.</li><li><b>Producción:</b> no hace falta comprar nada extra. Sirven la luz, el trípode y el micrófono de la piedra flexible, más una base neutra (tabla de madera o mármol) para apoyar las piezas.</li></ul></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>¿Cómo sabemos si funciona?</h3><ul class="clean" style="margin-top:8px"><li>El número principal es <b>cuántas personas escribieron por WhatsApp por Momo</b> y cuánto costó cada una.</li><li><b>Primeros 5 días:</b> se prueban 2 o 3 anuncios. Al sexto día se deja el que mejor funcionó.</li><li class="small"><b>Ejemplo para entender la cuenta</b> (no son datos reales): si cada conversación costara $2.000, con los $90.000 de consultas escribirían unas 45 personas.</li></ul></div>
+    <div class="card"><h3>Si Momo funciona mejor de lo esperado</h3><ul class="clean" style="margin-top:8px"><li>Los lunes se compara con los otros dos productos. Si Momo trae consultas más baratas, se le puede pasar plata de otro producto sin cambiar el total.</li><li>Si un color trae muchas más consultas, ese color pasa a ser el de los anuncios.</li></ul></div>
+  </div>
+  <p class="small" style="margin-top:14px">Impuestos, cómo se paga, qué se puede prometer y el glosario están en el <a href="#" data-go="resumen">Resumen</a>.</p>
+</div></section>
+
+<section class="block" id="mo-medir"><div class="wrap">
+  <header><p class="eyebrow">Cómo medimos</p><h2>Cada lunes, junto con lo demás</h2></header>
+  <div class="grid3">
+    <div class="card"><h3>En Instagram y Facebook</h3><ul class="clean" style="margin-top:8px"><li>Reproducciones de cada reel de Momo.</li><li>Guardados y compartidos.</li><li>Respuestas a las encuestas de color.</li></ul></div>
+    <div class="card"><h3>En la página web</h3><ul class="clean" style="margin-top:8px"><li>Visitas a los productos Momo.</li><li>Consultas por WhatsApp desde la ficha: llegan con el color elegido.</li><li>Consultas desde el probador de ambientes.</li></ul></div>
+    <div class="card"><h3>En el local</h3><ul class="clean" style="margin-top:8px"><li>Consultas que mencionan Momo o un color.</li><li>Gente que viene a ver las muestras.</li><li>Presupuestos y ventas.</li></ul></div>
+  </div>
+</div></section>
+
+<footer class="end"><div class="wrap">
+  <p class="eyebrow">Para arrancar</p><h2 style="margin-top:10px">Momo, esta semana y la que viene</h2>
+  <ol class="next" style="margin-top:20px">
+    <li><span><b>Viernes 13:</b> grabar las 5 líneas (1 hora, con luz de costado) y tus partes del reel principal.</span></li>
+    <li><span><b>Fin de semana:</b> editar el primer reel (M01) y armar el carrusel de las 5 líneas (MC1).</span></li>
+    <li><span><b>Martes 17:</b> sale el primer reel de Momo a las 17:00 y arranca su publicidad.</span></li>
+    <li><span><b>Martes 1 de diciembre:</b> sale el reel principal "Color que se toca" y pasa a ser el anuncio de consultas.</span></li>
+  </ol>
+</div></footer>
+<div class="wrap" style="padding-bottom:60px"><p class="eyebrow">Ver otro plan</p><div class="others"><button type="button" data-go="resumen">Resumen</button><button type="button" data-go="piedra">Piedra flexible</button><button type="button" data-go="strufaldi">Strufaldi</button></div></div></div>
+
+<div class="view" id="v-strufaldi" hidden>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Plan de redes · Materiales del Litoral · Strufaldi</p>
+      <h1 style="margin-top:14px">Tu pileta,<span>lista para el verano.</span></h1>
+      <p class="lead" style="margin-top:20px">Un mes para aprovechar que la gente ya está pensando en la pileta: venecitas Strufaldi de 10 × 10 en ocho colores, y el truco que las vende, mostrar cómo cambia el color del agua con cada una. Sale los jueves y domingos a las 16:00.</p>
+      <div class="meta"><span>Arranca: viernes 20 de noviembre</span><span>Termina: domingo 20 de diciembre</span></div>
+      <div class="facts"><div><b>9</b><span>reels</span></div><div><b>2</b><span>carruseles</span></div><div><b>1</b><span>posteo de foto</span></div><div><b>2–3</b><span>historias, jue y dom</span></div></div>
+    </div>
+    <div class="pool-stage" aria-hidden="true"><div style="display:flex;flex-direction:column;align-items:center"><div class="pool"><i style="--c:#4fa6c6"></i><i style="--c:#2c7f9e"></i><i style="--c:#8fc3d1"></i><i style="--c:#1f6f8f"></i><i style="--c:#3fb3b0"></i><i style="--c:#3fb3b0"></i><i style="--c:#4fa6c6"></i><i style="--c:#8fc3d1"></i><i style="--c:#8fc3d1"></i><i style="--c:#8fc3d1"></i><i style="--c:#3fb3b0"></i><i style="--c:#6cc6d4"></i><i style="--c:#2c7f9e"></i><i style="--c:#8fc3d1"></i><i style="--c:#4fa6c6"></i><i style="--c:#6cc6d4"></i><i style="--c:#6cc6d4"></i><i style="--c:#2c7f9e"></i><i style="--c:#2c7f9e"></i><i style="--c:#4fa6c6"></i><i style="--c:#8fc3d1"></i><i style="--c:#2c7f9e"></i><i style="--c:#4fa6c6"></i><i style="--c:#8fc3d1"></i><i style="--c:#1f6f8f"></i><i style="--c:#2c7f9e"></i><i style="--c:#2c7f9e"></i><i style="--c:#4fa6c6"></i><i style="--c:#4fa6c6"></i><i style="--c:#2c7f9e"></i><i style="--c:#2c7f9e"></i><i style="--c:#1f6f8f"></i><i style="--c:#1f6f8f"></i><i style="--c:#2c7f9e"></i><i style="--c:#8fc3d1"></i><i style="--c:#6cc6d4"></i><i style="--c:#2c7f9e"></i><i style="--c:#1f6f8f"></i><i style="--c:#3fb3b0"></i><i style="--c:#6cc6d4"></i><i style="--c:#4fa6c6"></i><i style="--c:#4fa6c6"></i><i style="--c:#4fa6c6"></i><i style="--c:#3fb3b0"></i><i style="--c:#2c7f9e"></i><i style="--c:#8fc3d1"></i><i style="--c:#6cc6d4"></i><i style="--c:#2c7f9e"></i></div><p class="slab-caption">Venecitas 10 × 10 · 8 colores</p></div></div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Secciones del plan de Strufaldi">
+  <div class="wrap">
+    <a href="#st-idea">La idea</a><a href="#st-modelos">Colores</a><a href="#st-etapas">Etapas</a><a href="#st-calendario">Calendario</a><a href="#st-reels">Reels</a><a href="#st-historias">Historias</a><a href="#st-carruseles">Carruseles</a><a href="#st-grabacion">Grabación</a><a href="#st-inversion">Inversión</a><a href="#st-medir">Cómo medimos</a>
+  </div>
+</nav>
+
+<section class="block" id="st-idea"><div class="wrap">
+  <header><p class="eyebrow">La idea</p><h2>El color del agua lo elige la venecita</h2>
+  <p class="lead">Nadie elige una venecita mirándola seca: lo que importa es cómo se ve el agua. Toda la campaña muestra cada color sumergido, con luz de sol, para que la gente pueda imaginarse su pileta. Y llega justo cuando hay que tenerla lista para el verano.</p></header>
+  <div class="grid3">
+    <div class="card"><p class="eyebrow">Frase de campaña</p><p class="quote" style="margin-top:10px">Tu pileta,<br>lista para el verano.</p><p class="small" style="margin-top:10px">Va en el reel principal, en las historias y en los anuncios.</p></div>
+    <div class="card"><p class="eyebrow">Tres cosas que todos tienen que saber</p><ul class="clean" style="margin-top:10px"><li><b>Ocho colores</b> de venecitas Strufaldi de 10 × 10.</li><li><b>Cada color cambia el agua:</b> más clara, más turquesa o más profunda.</li><li><b>Estás a tiempo</b> de renovarla antes del verano.</li></ul></div>
+    <div class="card"><p class="eyebrow">Tono</p><p style="margin-top:10px">Fresco y de verano, con sentido de urgencia sin presionar: "estás a tiempo". Nunca hablamos de precio en redes: invitamos a consultar.</p><p class="small">Hashtags: #piletas #venecitas #strufaldi #verano #santafe #materialesdellitoral</p></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Temas que se van alternando</h3><ul class="clean" style="margin-top:8px"><li><b>El agua:</b> cada venecita sumergida, con sol.</li><li><b>Los colores, de a dos:</b> Portland y Vis, Malawi y Kaimu, Samoa y Palau.</li><li><b>Antes de renovar:</b> qué revisar y cuántas hacen falta.</li><li><b>No solo piletas:</b> Black y White para baños y cocinas.</li></ul></div>
+    <div class="card"><h3>Cómo convive con los otros productos</h3><ul class="clean" style="margin-top:8px"><li>Strufaldi sale <b>a las 16:00, los jueves y domingos</b>. No se pisa con la piedra flexible (13:00 y 19:00) ni con Momo (17:00).</li><li>Un solo reel grande (jueves 26 de noviembre) y el resto cortos.</li><li>Es la campaña más corta: termina el 20 de diciembre, cuando la mayoría ya decidió.</li></ul></div>
+  </div>
+</div></section>
+
+<section class="block" id="st-modelos"><div class="wrap">
+  <header><p class="eyebrow">Los protagonistas</p><h2>Ocho colores, cada uno con su código</h2>
+  <p class="lead">En todas las fotos y videos aparece el nombre del color y su código, para que la consulta llegue directa.</p></header>
+  <div class="models" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,#8fc3d1"></div><div class="tx"><p class="num">Color 1 · 9049</p><h3>Portland</h3><p class="small">Venecita 10 × 10</p><p class="small">Piletas</p></div></div>
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,#4fa6c6"></div><div class="tx"><p class="num">Color 2 · 0989</p><h3>Vis</h3><p class="small">Venecita 10 × 10</p><p class="small">Piletas</p></div></div>
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,#2c7f9e"></div><div class="tx"><p class="num">Color 3 · 1006</p><h3>Malawi</h3><p class="small">Venecita 10 × 10</p><p class="small">Piletas</p></div></div>
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,#3fb3b0"></div><div class="tx"><p class="num">Color 4 · 9075</p><h3>Kaimu</h3><p class="small">Venecita 10 × 10</p><p class="small">Piletas</p></div></div>
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,#6cc6d4"></div><div class="tx"><p class="num">Color 5 · 1005</p><h3>Samoa</h3><p class="small">Venecita 10 × 10</p><p class="small">Piletas</p></div></div>
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,#1f6f8f"></div><div class="tx"><p class="num">Color 6 · 1004</p><h3>Palau</h3><p class="small">Venecita 10 × 10</p><p class="small">Piletas</p></div></div>
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,#1f1f1f"></div><div class="tx"><p class="num">Color 7 · 0974</p><h3>Black</h3><p class="small">Venecita 10 × 10</p><p class="small">Piletas, baños y cocinas</p></div></div>
+    <div class="model"><div class="sw" style="background:linear-gradient(90deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px) 0 0/24px 24px,#f4f4f2"></div><div class="tx"><p class="num">Color 8 · 0977</p><h3>White</h3><p class="small">Venecita 10 × 10</p><p class="small">Piletas, baños y cocinas</p></div></div>
+  </div>
+  <p class="small" style="margin-top:10px">Los colores de arriba son de referencia: en las piezas se usan siempre las fotos reales, y cómo se ve cada una con agua.</p>
+</div></section>
+
+<section class="block" id="st-etapas"><div class="wrap">
+  <header><p class="eyebrow">Recorrido</p><h2>Tres etapas en un mes</h2><p class="lead">Arranca cuando empieza el calor y termina antes de las fiestas.</p></header>
+  <div class="phases" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="phase"><p class="when">20 al 29 nov</p><h3>Llegó la temporada</h3><p>La venecita cayendo al agua, el carrusel de colores y el reel principal "Elegí el color de tu pileta" (jueves 26).</p></div>
+    <div class="phase"><p class="when">30 nov al 13 dic</p><h3>Color por color</h3><p>Los colores de a dos, cuántas hacen falta y "¿cuál elegís?".</p></div>
+    <div class="phase"><p class="when">14 al 20 dic</p><h3>Última semana</h3><p>"Estás a tiempo", qué revisar antes de renovar y Black y White para baños y cocinas.</p></div>
+  </div>
+</div></section>
+
+<section class="block" id="st-calendario"><div class="wrap">
+  <header><p class="eyebrow">Qué se sube y cuándo</p><h2>Calendario día por día</h2>
+  <p class="lead">Lo del feed va a Instagram y Facebook a las 16:00. Las historias van también a los estados de WhatsApp. Tocá el nombre de un reel para ver su guion o su gancho.</p></header>
+  <div class="weeks" role="group" aria-label="Semanas" data-weeks></div>
+  <div class="days" data-days></div>
+  <p class="small" style="margin-top:12px">Horario de Strufaldi: 16:00, jueves y domingos (y el viernes 20 y el martes 15). La piedra flexible sale a las 13:00 y 19:00, y Momo a las 17:00.</p>
+</div></section>
+
+<section class="block" id="st-reels"><div class="wrap">
+  <header><p class="eyebrow">Guiones</p><h2>Un reel grande, guionado segundo a segundo</h2>
+  <p class="lead">Es el que lleva más trabajo y se usa también como publicidad. El resto está en el banco de ideas de abajo.</p></header>
+  <article class="script" id="S03"><header><p><span class="prod p-st">Strufaldi</span> <span class="tag t-reel">Reel · Grande</span> <span class="tier">S03 · 35 s · jueves 26 de noviembre</span></p><h3>"Elegí el color de tu pileta"</h3><p class="small">El truco que lo hace único: cada venecita se sumerge en un recipiente transparente con agua para mostrar cómo cambia el color. Voz en off y música de verano.</p></header>
+    <div class="scroll"><table><thead><tr><th>Tiempo</th><th>Qué se ve</th><th>Texto en pantalla</th><th>Voz en off</th></tr></thead><tbody>
+      <tr><td>0–3 s</td><td>Agua con luz de sol moviéndose sobre las venecitas.</td><td>¿De qué color querés el agua?</td><td class="vo">"El color del agua de tu pileta lo elige la venecita."</td></tr>
+      <tr><td>3–20 s</td><td>Una por una, Portland, Vis, Malawi, Kaimu, Samoa y Palau entran al agua del recipiente.</td><td>El nombre de cada una</td><td class="vo">"Más clara, más turquesa, más profunda: mirá cómo cambia cada una con agua."</td></tr>
+      <tr><td>20–27 s</td><td>Fotos de piletas terminadas con esos colores.</td><td>Strufaldi · 10 × 10</td><td class="vo">"Son venecitas Strufaldi de 10 por 10, en ocho colores."</td></tr>
+      <tr><td>27–35 s</td><td>Vos en el showroom con las muestras.</td><td>Tu pileta, lista para el verano</td><td class="vo">"Estás a tiempo de dejarla lista para el verano. Escribinos y te ayudamos a elegir."</td></tr>
+    </tbody></table></div>
+  </article>
+  <h3 style="margin-top:40px">Banco de reels</h3>
+  <p class="small" style="margin-top:6px">Cada uno tiene su gancho: la primera frase o imagen, que es lo que hace que la gente no siga de largo. Los marcados como "Extra" quedan de reserva para reemplazar alguno o sumar si hay tiempo.</p>
+  <div class="scroll" style="margin-top:12px"><table class="bank" data-bank><thead><tr><th>Reel</th><th>Nivel</th><th>Cómo se hace</th><th>Gancho (primeros 2 segundos)</th><th>Duración</th></tr></thead><tbody></tbody></table></div>
+
+</div></section>
+
+<section class="block" id="st-historias"><div class="wrap">
+  <header><p class="eyebrow">En las historias</p><h2>Domingos de pileta (y los jueves)</h2>
+  <p class="lead">Las historias diarias siguen con piedra flexible. Los jueves y domingos se suman 2 o 3 historias de Strufaldi, en las mismas tandas.</p></header>
+  <div class="slots">
+    <div class="card slot"><p class="h">9:00</p><h3 style="margin-top:8px">Color en el agua</h3><p class="small">Una venecita sumergida con su nombre y el WhatsApp.</p></div>
+    <div class="card slot"><p class="h">13:00</p><h3 style="margin-top:8px">Que elijan</h3><p class="small">Encuesta: "¿Turquesa o azul profundo?".</p></div>
+    <div class="card slot"><p class="h">18:00</p><h3 style="margin-top:8px">Verano</h3><p class="small">Video corto de agua con sol, o una pileta terminada.</p></div>
+    <div class="card slot"><p class="h">21:30</p><h3 style="margin-top:8px">Lo del día</h3><p class="small">Compartir el reel o carrusel de Strufaldi con el WhatsApp.</p></div>
+  </div>
+  <h3 style="margin-top:32px">Plantillas</h3>
+  <div class="phones n3" style="margin-top:12px">
+    <div class="phone water"><p class="k">A · Color en el agua</p><p class="big">Kaimu<br>9075</p><span class="pill">Escribinos</span></div>
+    <div class="phone paper"><p class="k">B · Encuesta</p><p class="big">¿De qué color querés el agua?</p><div class="poll"><span>Turquesa (Kaimu)</span><span>Azul profundo (Palau)</span></div></div>
+    <div class="phone paper"><p class="k">C · Cuenta regresiva</p><p class="big">Faltan X días para el verano</p><span class="pill">¿Tu pileta está lista?</span></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Más ideas para variar</h3><ul class="clean" style="margin-top:8px"><li>Sticker de cuenta regresiva al 21 de diciembre (empieza el verano).</li><li>Caja de preguntas: "¿Qué le pasa a tu pileta?".</li><li>Fotos de piletas de clientes, con permiso.</li></ul></div>
+  </div>
+</div></section>
+
+<section class="block" id="st-carruseles"><div class="wrap">
+  <header><p class="eyebrow">Para guardar y compartir</p><h2>Dos carruseles para elegir y decidir</h2>
+  <p class="lead">Los carruseles son lo que más se guarda. Formato 4:5, de 6 a 8 fotos, con la última invitando a consultar.</p></header>
+  <div class="grid2" data-carousels></div>
+</div></section>
+
+<section class="block" id="st-grabacion"><div class="wrap">
+  <header><p class="eyebrow">Producción</p><h2>Grabación: 45 minutos el viernes 13</h2>
+  <p class="lead">Se graba dentro de la grabación grande del viernes 13. Lo único especial es el recipiente con agua y la luz: lo ideal es afuera o junto a una ventana con sol.</p></header>
+  <div class="grid3">
+    <div class="card"><p class="eyebrow">Viernes 13 nov · 30 min</p><h3 style="margin-top:6px">Las venecitas en agua</h3><p class="small">Cada color sumergido en un recipiente transparente, con sol. Desde arriba y de costado.</p></div>
+    <div class="card"><p class="eyebrow">Viernes 13 nov · 15 min</p><h3 style="margin-top:6px">Vos a cámara</h3><p class="small">El cierre del reel principal (S03) y los consejos de S07 y S10.</p></div>
+    <div class="card"><p class="eyebrow">Antes del 20 nov</p><h3 style="margin-top:6px">Fotos de piletas terminadas</h3><p class="small">Pedirlas al proveedor o a clientes (con permiso) para el reel principal y el carrusel.</p></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap"><h3>Tomas por color</h3><span class="progress" data-prog></span></div>
+      <div class="modelpick" data-modelpick role="group" aria-label="Colores" style="margin-top:10px"></div>
+      <ul class="check" data-shots></ul>
+    </div>
+    <div class="card">
+      <h3>Tomas generales</h3>
+      <ul class="check" data-general style="margin-top:8px"></ul>
+      <h3 style="margin-top:18px">Equipo</h3>
+      <ul class="check" data-gear style="margin-top:8px"></ul>
+    </div>
+  </div>
+</div></section>
+
+<section class="block" id="st-inversion"><div class="wrap">
+  <header><p class="eyebrow">Inversión de Strufaldi</p><h2>El 20% del presupuesto, concentrado en la temporada</h2>
+  <p class="lead">La gente ya está buscando renovar la pileta antes del verano. Con menos plata, bien concentrada en esas semanas, alcanza. Va del 20 de noviembre al 19 de diciembre, con el mismo monto por día.</p></header>
+  <div class="grid2">
+    <div class="card"><h3>Publicidad en Instagram y Facebook</h3><div class="scroll" style="margin-top:10px"><table class="money"><thead><tr><th>Parte</th><th>Qué hace</th><th style="text-align:right">Monto</th></tr></thead><tbody>
+      <tr><td><b>1. Presencia</b><br><span class="small">Reproducciones de reels</span></td><td>Los reels del agua se muestran a toda la zona, sobre todo a gente con casa y patio.</td><td class="n">$60.000</td></tr>
+      <tr><td><b>2. Consultas</b><br><span class="small">Mensajes por WhatsApp</span></td><td>Anuncio con el botón «Enviar mensaje». Desde el jueves 26, con el reel principal "Elegí el color de tu pileta".</td><td class="n">$60.000</td></tr>
+      <tr><td colspan="2">Anuncios de Strufaldi · 20 nov al 19 dic: $4.000 por día (mitad y mitad entre las dos partes)</td><td class="n">$120.000</td></tr>
+      <tr><td colspan="2">Impuestos que suma la tarjeta (alrededor de 30%)</td><td class="n">$36.000</td></tr>
+    </tbody><tfoot><tr><td colspan="2">Total de Strufaldi</td><td class="n">$156.000</td></tr></tfoot></table></div>
+    <p class="small" style="margin-top:10px">Público: Santa Fe, Santo Tomé, Paraná y 40 km alrededor; de 28 a 60 años; interesados en piletas, jardín, casas con patio, construcción y remodelación. Sumá también a quienes ya interactuaron con la cuenta.</p></div>
+    <div class="card"><h3>Qué se promociona</h3><ul class="clean" style="margin-top:8px"><li><b>20 al 25 nov:</b> la venecita cayendo al agua (S01) y el carrusel de colores (SC1).</li><li><b>Desde el jueves 26:</b> el reel principal (S03) en consultas hasta el final.</li><li><b>Producción:</b> un recipiente transparente grande (pecera o fuente de vidrio) y agua limpia. Lo demás ya está.</li></ul></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>¿Cómo sabemos si funciona?</h3><ul class="clean" style="margin-top:8px"><li>El número principal es <b>cuántas personas escribieron por WhatsApp por la pileta</b> y cuánto costó cada una.</li><li class="small"><b>Ejemplo para entender la cuenta</b> (no son datos reales): si cada conversación costara $2.000, con los $60.000 de consultas escribirían unas 30 personas.</li></ul></div>
+    <div class="card"><h3>Por qué termina el 19 de diciembre</h3><ul class="clean" style="margin-top:8px"><li>Una pileta no se renueva de un día para el otro: quien escribe después de mediados de diciembre difícilmente llegue para el verano.</li><li>Las publicaciones y las historias siguen; lo que se apaga es la publicidad.</li></ul></div>
+  </div>
+  <p class="small" style="margin-top:14px">Impuestos, cómo se paga, qué se puede prometer y el glosario están en el <a href="#" data-go="resumen">Resumen</a>.</p>
+</div></section>
+
+<section class="block" id="st-medir"><div class="wrap">
+  <header><p class="eyebrow">Cómo medimos</p><h2>Cada lunes, junto con lo demás</h2></header>
+  <div class="grid3">
+    <div class="card"><h3>En Instagram y Facebook</h3><ul class="clean" style="margin-top:8px"><li>Reproducciones de cada reel de Strufaldi.</li><li>Guardados y compartidos.</li><li>Respuestas a las encuestas de color.</li></ul></div>
+    <div class="card"><h3>En la página web</h3><ul class="clean" style="margin-top:8px"><li>Visitas a los productos Strufaldi.</li><li>Consultas por WhatsApp desde la ficha y la calculadora.</li></ul></div>
+    <div class="card"><h3>En el local</h3><ul class="clean" style="margin-top:8px"><li>Consultas que mencionan pileta o venecitas.</li><li>Qué colores se piden más.</li><li>Presupuestos y ventas.</li></ul></div>
+  </div>
+</div></section>
+
+<footer class="end"><div class="wrap">
+  <p class="eyebrow">Para arrancar</p><h2 style="margin-top:10px">Strufaldi, estas dos semanas</h2>
+  <ol class="next" style="margin-top:20px">
+    <li><span><b>Esta semana:</b> conseguir el recipiente transparente y pedir fotos de piletas terminadas.</span></li>
+    <li><span><b>Viernes 13:</b> grabar las venecitas en agua con sol (30 minutos) y tus partes a cámara.</span></li>
+    <li><span><b>Viernes 20:</b> sale el primer reel a las 16:00 y arranca la publicidad de Strufaldi.</span></li>
+    <li><span><b>Jueves 26:</b> sale el reel principal "Elegí el color de tu pileta" y pasa a ser el anuncio de consultas.</span></li>
+  </ol>
+</div></footer>
+<div class="wrap" style="padding-bottom:60px"><p class="eyebrow">Ver otro plan</p><div class="others"><button type="button" data-go="resumen">Resumen</button><button type="button" data-go="piedra">Piedra flexible</button><button type="button" data-go="momo">Momo</button></div></div></div>
+
+<script>
+window.PLANS = window.PLANS || {};
+window.PLANS.piedra = (function () {
+  var REELS = [
+    ["R01", "Grande", "Voz en off + vos a cámara", "Manos doblando la placa: «Esto es piedra.»", "40 s"],
+    ["R02", "Rápido", "Estético, texto en pantalla", "Placa doblándose en cámara lenta: «¿Esto es piedra? Sí.»", "8 s"],
+    ["R03", "Rápido", "Sonido real, sin voz", "Cutter cortando la piedra, sonido fuerte", "10 s"],
+    ["R04", "Rápido", "Estético", "Una placa de 60 × 240 levantada con una mano", "7 s"],
+    ["R05", "Mediano", "Voz en off", "Slate Off White: macro de textura y la placa entera", "18 s"],
+    ["R06", "Mediano", "Voz en off", "Square Line Stone: paneo lento con luz de costado", "18 s"],
+    ["R07", "Mediano", "Voz en off", "Timber Mix Dark Grey: mano recorriendo las vetas", "18 s"],
+    ["R08", "Mediano", "Voz en off", "Lito Ash: placa doblada y ambiente ilustrativo", "18 s"],
+    ["R09", "Mediano", "Voz en off", "Grooved Lito Ash: dedo recorriendo el relieve", "18 s"],
+    ["R10", "Grande", "Albañil, time-lapse con texto", "«Hora 0 · pared común»", "35 s"],
+    ["R11", "Mediano", "Colocador + texto en 4 pasos", "«Así se pega la piedra flexible»", "25 s"],
+    ["R12", "Rápido", "Transición antes/después", "Mano que barre la pantalla y aparece la piedra", "6 s"],
+    ["R13", "Mediano", "Vos a cámara", "«Las 3 preguntas que nos hacen siempre»", "30 s"],
+    ["R14", "Rápido", "Sonido en tendencia", "«POV: querés una pared de piedra pero no querés obra»", "8 s"],
+    ["R15", "Mediano", "Voz en off", "La placa envolviendo una columna redonda", "15 s"],
+    ["R16", "Rápido", "Estético con música", "Luz rasante moviéndose sobre la textura", "8 s"],
+    ["R17", "Grande", "Vos a cámara en el showroom", "«¿Cuál va con tu casa?»", "50 s"],
+    ["R18", "Mediano", "Voz en off + ambientes ilustrativos", "«5 lugares donde nunca pensaste poner piedra»", "20 s"],
+    ["R19", "Rápido", "Cortes rápidos con números", "«¿Cuál elegís? 1, 2, 3, 4 o 5»", "8 s"],
+    ["R20", "Mediano", "Grabación de pantalla del celular", "«Probala en tu casa antes de comprarla»: el probador con una foto", "18 s"],
+    ["R21", "Rápido", "Pantalla dividida", "Piedra tradicional vs. piedra flexible: peso y grosor", "10 s"],
+    ["R22", "Mediano", "Voz en off con cinta métrica", "«¿Cuánto rinde una placa?»", "15 s"],
+    ["R23", "Rápido", "Macro", "Uña pasando por el borde finísimo", "6 s"],
+    ["R24", "Grande", "Voz en off + ambientes", "«Renová tu living antes de las fiestas, sin obra»", "30 s"],
+    ["R25", "Rápido", "Reacción real", "Alguien tocando la placa por primera vez: «No puede ser piedra»", "8 s"],
+    ["R26", "Mediano", "Colocador a cámara", "«3 errores al colocar piedra flexible»", "25 s"],
+    ["R27", "Rápido", "Estético navideño", "Árbol de Navidad frente a la pared de piedra, luces cálidas", "8 s"],
+    ["R28", "Mediano", "Vos a cámara", "«Lo que más nos preguntaron este mes»", "30 s"],
+    ["R29", "Mediano", "Fragmento de la charla de MAPEI", "«¿Con qué se pega la piedra flexible?» El experto responde", "30 s"],
+    ["R30", "Mediano", "Charla de MAPEI, preguntas cortas", "«Le preguntamos al experto de MAPEI…»", "25 s"]
+  ];
+  var CAROUSELS = [
+    ["C1", "¿Qué es la piedra flexible?", ["Es piedra. Y se dobla.", "Lámina de piedra natural real", "Sobre una base flexible", "Se pega sin obra", "Pesa muy poco", "Se corta con cutter", "5 modelos en Santa Fe", "Escribinos por WhatsApp"]],
+    ["C2", "5 lugares donde usarla", ["5 lugares donde nunca pensaste poner piedra", "Respaldo de cama", "Columna redonda", "Frente de mesada o barra", "Fachada o galería", "Local comercial", "¿Cuál es el tuyo?"]],
+    ["C3", "Piedra tradicional vs. flexible", ["¿Piedra tradicional o flexible?", "Peso", "Grosor", "Obra y tiempo", "Paredes curvas", "Corte", "El resultado: piedra real"]],
+    ["C4", "Los 5 modelos", ["Los 5 modelos", "Slate Off White · 60 × 240", "Square Line Stone · 60 × 240", "Timber Mix Dark Grey · 60 × 240", "Lito Ash · 60 × 120", "Grooved Lito Ash · 60 × 120", "¿Cuál elegís?"]],
+    ["C5", "Cómo se coloca en 4 pasos", ["Cómo se coloca", "1. Pared limpia y seca", "2. Medir y cortar con cutter", "3. Adhesivo en la pared y la placa", "4. Pegar y presionar", "Listo: sin obra", "Consultanos por la colocación"]],
+    ["C6", "Preguntas frecuentes", ["Lo que todos preguntan", "¿Es piedra real?", "¿Cuánto rinde una placa?", "¿Se puede poner en el baño o afuera?", "¿Se limpia fácil?", "¿Dónde la veo?", "Escribinos"]],
+    ["C8", "Cómo se pega bien: consejos de MAPEI", ["Cómo se pega bien", "La pared: limpia, seca y pareja", "El adhesivo indicado", "Cómo se aplica", "Tiempos de secado", "Errores que hay que evitar", "Consultanos qué necesitás"]],
+    ["C7", "Antes y después", ["Antes", "La pared lisa del showroom", "Durante: una mañana de trabajo", "Después", "Detalle de la textura", "¿Te imaginás en tu casa?"]]
+  ];
+  var DAYS = [
+    ["2026-11-12", [["13:00", "carrusel", "C1", "¿Qué es la piedra flexible?"], ["19:00", "reel", "R04", "60 × 240 con una mano"]], "Colocación y charla de MAPEI en vivo desde el showroom · «Ya la podés ver en el local» + WhatsApp", true],
+    ["2026-11-13", [["19:00", "reel", "R03", "El corte con cutter"]], "Modelo del día con WhatsApp · caja de preguntas"],
+    ["2026-11-14", [["12:00", "reel", "R12", "Antes y después de la pared de muestra"]], "Encuesta «¿Dónde la pondrías?»"],
+    ["2026-11-15", [["12:00", "post", "", "Foto macro: «Piedra natural, lámina finísima»"]], "Probalo en tu casa (link a la web)"],
+    ["2026-11-16", [["19:00", "reel", "R01", "Reel principal: «Es piedra. Y se dobla.»"]], "Compartir el reel, quiz «¿Es piedra real?», WhatsApp", true],
+    ["2026-11-17", [["19:00", "reel", "R05", "Modelo: Slate Off White"]], "Modelo de la semana: Slate Off White"],
+    ["2026-11-18", [["13:00", "carrusel", "C2", "5 lugares donde usarla"], ["19:00", "reel", "R14", "POV sin obra"]], "Encuesta «¿Living o dormitorio?»"],
+    ["2026-11-19", [["19:00", "reel", "R29", "¿Con qué se pega? (charla de MAPEI)"]], "Recortes de la charla de MAPEI · etiquetar a MAPEI"],
+    ["2026-11-20", [["19:00", "reel", "R19", "¿Cuál elegís? 1 al 5"]], "Caja de preguntas para responder el lunes"],
+    ["2026-11-21", [["12:00", "reel", "R16", "Textura con luz rasante"]], "Deslizador «¿Cuánto te gusta?»"],
+    ["2026-11-22", [["12:00", "reel", "R06", "Modelo: Square Line Stone"]], "Historias livianas: la placa en el showroom"],
+    ["2026-11-23", [["19:00", "reel", "R10", "De pared lisa a pared de piedra"]], "Modelo de la semana: Timber Mix Dark Grey · respuestas de la caja", true],
+    ["2026-11-24", [["13:00", "carrusel", "C5", "Cómo se coloca en 4 pasos"], ["19:00", "reel", "R07", "Modelo: Timber Mix Dark Grey"]], "Quiz «¿Cuánto tarda la colocación?»"],
+    ["2026-11-25", [["19:00", "reel", "R02", "¿Esto es piedra? Sí."]], "Antes y después con deslizador"],
+    ["2026-11-26", [["13:00", "carrusel", "C8", "Cómo se pega bien: consejos de MAPEI"], ["19:00", "reel", "R13", "Las 3 preguntas de siempre"]], "Encuesta «¿Sabías que se dobla?»"],
+    ["2026-11-27", [["19:00", "reel", "R11", "Así se pega"]], "Caja de preguntas sobre la colocación"],
+    ["2026-11-28", [["12:00", "reel", "R16", "Textura con luz rasante (otra toma)"]], "Reposteo de mensajes y reacciones"],
+    ["2026-11-29", [["12:00", "carrusel", "C3", "Tradicional vs. flexible"]], "Historias livianas"],
+    ["2026-11-30", [["19:00", "reel", "R17", "Los 5 modelos en 50 segundos"]], "Modelo de la semana: Lito Ash", true],
+    ["2026-12-01", [["19:00", "reel", "R08", "Modelo: Lito Ash"]], "Encuesta entre dos modelos"],
+    ["2026-12-02", [["13:00", "carrusel", "C4", "Los 5 modelos"], ["19:00", "reel", "R21", "Tradicional vs. flexible"]], "Quiz de los nombres"],
+    ["2026-12-03", [["19:00", "reel", "R20", "Probala en tu casa (probador de la web)"]], "Link al probador de ambientes"],
+    ["2026-12-04", [["19:00", "reel", "R09", "Modelo: Grooved Lito Ash"]], "Caja de preguntas"],
+    ["2026-12-05", [["12:00", "reel", "R23", "El borde finísimo"]], "Detrás de escena en el local"],
+    ["2026-12-06", [["12:00", "post", "", "Ambiente con Slate Off White (ilustrativo)"]], "Historias livianas"],
+    ["2026-12-07", [["19:00", "reel", "R18", "5 lugares inesperados"]], "Modelo de la semana: Grooved Lito Ash", true],
+    ["2026-12-08", [["12:00", "reel", "R25", "«No puede ser piedra»"]], "Feriado: historias livianas"],
+    ["2026-12-09", [["13:00", "carrusel", "C6", "Preguntas frecuentes"], ["19:00", "reel", "R22", "¿Cuánto rinde una placa?"]], "Respuestas en video"],
+    ["2026-12-10", [["19:00", "reel", "R15", "Envuelve una columna"]], "Encuesta «¿Columna o pared?»"],
+    ["2026-12-11", [["19:00", "reel", "R26", "3 errores al colocar"]], "Caja de preguntas"],
+    ["2026-12-12", [["12:00", "carrusel", "C7", "Antes y después"]], "Deslizador sobre el antes y después"],
+    ["2026-12-13", [["12:00", "post", "", "La pared de muestra terminada"]], "Historias livianas"],
+    ["2026-12-14", [["19:00", "reel", "R24", "Renová antes de las fiestas"]], "Modelo de la semana: Square Line Stone", true],
+    ["2026-12-15", [["19:00", "reel", "R19", "¿Cuál elegís? (nueva versión)"]], "Encuesta de modelos"],
+    ["2026-12-16", [["19:00", "reel", "R27", "Navidad frente a la piedra"]], "Horarios de fin de año"],
+    ["2026-12-17", [["19:00", "reel", "R28", "Lo más preguntado del mes"]], "Caja de preguntas final"],
+    ["2026-12-18", [["19:00", "reel", "R30", "Le preguntamos al experto de MAPEI"]], "Detrás de escena"],
+    ["2026-12-19", [["12:00", "reel", "R16", "Textura (otra toma)"]], "Historias livianas"],
+    ["2026-12-20", [["12:00", "post", "", "Ambiente con Timber Mix Dark Grey (ilustrativo)"]], "Historias livianas"],
+    ["2026-12-21", [["19:00", "reel", "R01", "Versión corta de 15 s del lanzamiento"]], "Recordatorio de horarios y WhatsApp", true],
+    ["2026-12-22", [], "Saludo del equipo y horarios de fiestas"],
+    ["2026-12-23", [["12:00", "post", "", "Felices fiestas, con la pared de piedra"]], "Saludo de fin de año"]
+  ];
+  var SHOTS = [
+    "Foto: placa entera de frente con cartel del nombre", "Foto: placa a 45° con luz de costado", "Foto: macro de la textura", "Foto: placa doblada en arco, en las manos",
+    "Foto: vos sosteniendo la placa (escala humana)", "Foto: detalle del borde finísimo", "Foto: colocada en la pared de muestra", "Foto: 2 ambientes ilustrativos",
+    "Video: paneo lento de lado a lado", "Video: doblado en cámara lenta", "Video: corte con cutter, sonido real", "Video: levantarla con una mano",
+    "Video: mano recorriendo la textura", "Video: transición de la placa al ambiente", "Video: vos diciendo el nombre del modelo", "Voz en off del modelo grabada"
+  ];
+  var GENERAL = ["Charla de MAPEI: pedir permiso para grabar y publicar", "Charla de MAPEI: corbatero al disertante y plano fijo en trípode", "Charla de MAPEI: primeros planos del adhesivo y de cómo se aplica", "Charla de MAPEI: 3 o 4 preguntas cortas al experto, a cámara (R30)", "Fachada y entrada del local", "Vos a cámara: partes de R01, R13, R17 y R28", "Albañil: time-lapse completo con trípode (R10)", "Albañil: paso a paso de cerca (R11, R26)", "Antes y después de la pared de muestra, mismo encuadre", "Reacciones de gente tocando la placa (R25)", "Pantalla del celular usando el probador de la web (R20)", "Columna o caño redondo envuelto (R15)"];
+  var GEAR = ["Trípode para celular", "Panel LED con difusor o luz de ventana de costado", "Micrófono corbatero inalámbrico", "Cutter, regla metálica y cinta métrica", "Adhesivo y llana para la colocación", "Carteles con el nombre de cada modelo", "Paño para limpiar la lente"];
+  var MODELS = ["Slate Off White", "Square Line Stone", "Timber Mix Dark Grey", "Lito Ash", "Grooved Lito Ash"];
+  return { key: "pf", scripted: ["R01", "R10", "R17"], reels: REELS, carousels: CAROUSELS, days: DAYS, weeks: [["2026-11-12", "2026-11-15", "12–15 nov"], ["2026-11-16", "2026-11-22", "16–22 nov"], ["2026-11-23", "2026-11-29", "23–29 nov"], ["2026-11-30", "2026-12-06", "30 nov–6 dic"], ["2026-12-07", "2026-12-13", "7–13 dic"], ["2026-12-14", "2026-12-23", "14–23 dic"]], shots: SHOTS, general: GENERAL, gear: GEAR, models: MODELS };
+})();
+window.PLANS.momo = {"scripted": ["M06"], "reels": [["M01", "Rápido", "Estético, luz rasante", "La luz recorre las escamas Fawn verde oscuro y el brillo se mueve", "8 s"], ["M02", "Mediano", "Voz en off", "Fawn Series: las tres escamas, de cerca y en un ambiente", "18 s"], ["M03", "Mediano", "Voz en off", "Flute: el dedo recorre las varillas", "18 s"], ["M04", "Mediano", "Voz en off", "Chalk: bordo, beige y verde, uno al lado del otro", "18 s"], ["M05", "Mediano", "Voz en off", "Pura y Ancient: los listones para combinar", "18 s"], ["M06", "Grande", "Vos a cámara + primeros planos", "«Hay revestimientos que se miran… y otros que dan ganas de tocar»", "45 s"], ["M07", "Rápido", "Sonido en tendencia", "Una mano pasa por las varillas Flute, cámara lenta", "7 s"], ["M08", "Rápido", "Cortes rápidos", "«14 colores en 10 segundos: ¿cuál elegís?»", "10 s"], ["M09", "Mediano", "Voz en off + piezas sobre la mesa", "«3 combinaciones para una cocina con personalidad»", "20 s"], ["M10", "Mediano", "Grabación de pantalla del celular", "«Probalo en la foto de tu cocina»: Momo en el probador de la web", "18 s"], ["M13", "Rápido", "Estético navideño", "Mesa de fiestas frente a una pared de Fawn verde oscuro", "8 s"], ["M11", "Extra", "Transición antes/después", "Barra lisa → barra con Flute (ambiente ilustrativo)", "8 s"], ["M12", "Extra", "Vos a cámara", "«¿Cómo elegir un revestimiento con color sin equivocarte?»", "25 s"]], "carousels": [["MC1", "Conocé Momo: 5 líneas, 14 colores", ["Color que se toca", "Fawn Series · escamas", "Flute · varillas", "Chalk · varillas rectas", "Pura · listón", "Ancient · listón", "¿Cuál es tu color? Escribinos"]], ["MC2", "Qué color va con tu cocina (y con tu baño)", ["¿Qué color va con tu cocina?", "Mesada clara → Fawn verde oscuro", "Madera → Chalk bordo o verde", "Todo blanco → Flute verde celeste", "Baño chico → Fawn blanco", "Barra o isla → Chalk bordo", "Probalo en tu foto en la web"]], ["MC3", "Cómo combinar los listones Pura y Ancient", ["Listones que combinan", "Pura crudo + Ancient verde", "Pura beige + Ancient rosa", "Ancient arena + madera", "En guarda o en toda la pared", "Vení a armar tu combinación"]]], "days": [["2026-11-17", [["17:00", "reel", "M01", "Llegó Momo: la luz sobre las escamas"]], "«Llegó Momo» + color del día con WhatsApp", true], ["2026-11-20", [["17:00", "carrusel", "MC1", "Conocé Momo: 5 líneas, 14 colores"]], "Encuesta «¿Verde o bordo?»"], ["2026-11-24", [["17:00", "reel", "M02", "Fawn Series: las escamas"]], "Color del día: Fawn verde agua"], ["2026-11-27", [["17:00", "reel", "M07", "Varillas Flute en cámara lenta"]], "Quiz «¿Cuántos colores tiene Momo?»"], ["2026-12-01", [["17:00", "reel", "M06", "Reel principal: «Color que se toca»"]], "Compartir el reel principal + WhatsApp", true], ["2026-12-04", [["17:00", "reel", "M03", "Flute: varillas con relieve"]], "Encuesta «¿Cocina o baño?»"], ["2026-12-06", [["17:00", "post", "", "Las muestras de Momo sobre una mesada"]], "Color del día"], ["2026-12-08", [["17:00", "reel", "M04", "Chalk: bordo, beige y verde"]], "Feriado: deslizador sobre el brillo"], ["2026-12-10", [["17:00", "carrusel", "MC2", "Qué color va con tu cocina"]], "Caja de preguntas: «¿Qué cocina tenés?»"], ["2026-12-12", [["17:00", "reel", "M08", "14 colores en 10 segundos"]], "Encuesta entre dos colores"], ["2026-12-15", [["17:00", "reel", "M05", "Pura y Ancient: los listones"]], "Color del día: Ancient rosa"], ["2026-12-17", [["17:00", "reel", "M10", "Probalo en tu cocina (probador de la web)"]], "Link al probador de ambientes"], ["2026-12-19", [["17:00", "carrusel", "MC3", "Cómo combinar Pura y Ancient"]], "Respuestas de la caja de preguntas"], ["2026-12-21", [["17:00", "reel", "M13", "Mesa de fiestas frente a Fawn"]], "Horarios de fin de año"], ["2026-12-22", [["17:00", "reel", "M09", "3 combinaciones para una cocina"]], "Saludo y WhatsApp"]], "weeks": [["2026-11-16", "2026-11-22", "16–22 nov"], ["2026-11-23", "2026-11-29", "23–29 nov"], ["2026-11-30", "2026-12-06", "30 nov–6 dic"], ["2026-12-07", "2026-12-13", "7–13 dic"], ["2026-12-14", "2026-12-23", "14–23 dic"]], "models": ["Fawn Series", "Flute", "Chalk", "Pura", "Ancient"], "shots": ["Foto: cada color de frente, con cartel del nombre y código", "Foto: macro del esmalte con luz de costado", "Foto: los colores de la línea juntos", "Foto: una pieza en la mano (escala)", "Foto: sobre una mesada o madera", "Foto: 2 ambientes ilustrativos", "Video: luz que se mueve sobre la pieza", "Video: mano recorriendo el relieve", "Video: paneo lento por los colores", "Video: transición de la pieza al ambiente", "Video: vos diciendo el nombre de la línea", "Voz en off de la línea grabada"], "general": ["Mesa con los 14 colores juntos, desde arriba (M08)", "Combinaciones junto a madera, mármol y grifería (M09, MC3)", "Vos a cámara: partes de M06 y M12", "Pantalla del celular usando el probador con una foto de cocina (M10)", "Toma navideña frente a Fawn verde oscuro (M13)", "Una pieza de Momo junto a la piedra flexible"], "gear": ["Panel LED con difusor, de costado (clave para el brillo)", "Trípode para celular", "Micrófono corbatero inalámbrico", "Base neutra: tabla de madera o placa de mármol", "Carteles con nombre y código de cada color", "Paño para limpiar el esmalte (marcas de dedos)"], "key": "mo"};
+window.PLANS.strufaldi = {"scripted": ["S03"], "reels": [["S01", "Rápido", "Cámara lenta", "Una venecita cae al agua y el color cambia", "7 s"], ["S02", "Mediano", "Voz en off", "Portland y Vis: los celestes clásicos, en agua", "18 s"], ["S03", "Grande", "Voz en off + venecitas en agua", "«¿De qué color querés el agua?»", "35 s"], ["S04", "Mediano", "Voz en off", "Malawi y Kaimu: turquesa y azul intenso, en agua", "18 s"], ["S05", "Mediano", "Voz en off", "Samoa y Palau: del celeste al azul profundo", "18 s"], ["S06", "Rápido", "Cortes rápidos con números", "«¿Cuál elegís? 1 al 6» con las seis en agua", "8 s"], ["S07", "Mediano", "Vos a cámara con cinta métrica", "«¿Cuántas venecitas necesita mi pileta?»", "25 s"], ["S08", "Mediano", "Voz en off", "Black y White: venecitas para baño y cocina", "18 s"], ["S09", "Rápido", "Estético con música de verano", "Sol moviéndose sobre el agua turquesa", "6 s"], ["S10", "Extra", "Vos a cámara", "«3 cosas a revisar antes de renovar la pileta»", "25 s"]], "carousels": [["SC1", "Elegí el color del agua: 6 venecitas", ["¿De qué color querés el agua?", "Portland 9049", "Vis 0989", "Malawi 1006", "Kaimu 9075", "Samoa 1005", "Palau 1004", "Escribinos y te ayudamos a elegir"]], ["SC2", "Renovar la pileta: qué tener en cuenta", ["Antes de renovar tu pileta", "Medí el largo, el ancho y la profundidad", "Revisá que no pierda agua", "Elegí el color con agua, no seco", "Calculá un poco más por los cortes", "Tiempos: hacelo antes del verano", "Consultanos con tus medidas"]]], "days": [["2026-11-20", [["16:00", "reel", "S01", "La venecita que cae al agua"]], "Encuesta «¿Ya pensaste en la pileta?»", true], ["2026-11-22", [["16:00", "carrusel", "SC1", "Elegí el color del agua: 6 venecitas"]], "Color en el agua: Portland"], ["2026-11-26", [["16:00", "reel", "S03", "Reel principal: «Elegí el color de tu pileta»"]], "Compartir el reel principal + WhatsApp", true], ["2026-11-29", [["16:00", "reel", "S02", "Portland y Vis"]], "Encuesta «¿Turquesa o azul profundo?»"], ["2026-12-03", [["16:00", "reel", "S06", "¿Cuál elegís? 1 al 6"]], "Color en el agua: Kaimu"], ["2026-12-06", [["16:00", "reel", "S04", "Malawi y Kaimu"]], "Caja de preguntas: «¿Qué le pasa a tu pileta?»"], ["2026-12-10", [["16:00", "reel", "S07", "¿Cuántas venecitas necesito?"]], "Respuestas de la caja de preguntas"], ["2026-12-13", [["16:00", "reel", "S05", "Samoa y Palau"]], "Cuenta regresiva al verano"], ["2026-12-15", [["16:00", "carrusel", "SC2", "Renovar la pileta: qué tener en cuenta"]], "«Estás a tiempo» + WhatsApp"], ["2026-12-17", [["16:00", "reel", "S08", "Black y White para baño y cocina"]], "Color en el agua: Palau"], ["2026-12-20", [["16:00", "reel", "S09", "Sol sobre el agua turquesa"], ["16:30", "post", "", "Muestrario de los 8 colores"]], "Saludo de verano + WhatsApp"]], "weeks": [["2026-11-16", "2026-11-22", "16–22 nov"], ["2026-11-23", "2026-11-29", "23–29 nov"], ["2026-11-30", "2026-12-06", "30 nov–6 dic"], ["2026-12-07", "2026-12-13", "7–13 dic"], ["2026-12-14", "2026-12-20", "14–20 dic"]], "models": ["Portland", "Vis", "Malawi", "Kaimu", "Samoa", "Palau", "Black", "White"], "shots": ["Foto: la venecita seca, con cartel del nombre y código", "Foto: sumergida, desde arriba, con sol", "Foto: sumergida, de costado", "Foto: la plancha completa (malla)", "Video: la venecita cayendo al agua, cámara lenta", "Video: agua moviéndose sobre la venecita", "Video: mano sacándola del agua", "Voz en off del color grabada"], "general": ["Las 6 venecitas de pileta en agua, una al lado de la otra (S03, S06)", "Muestrario de los 8 colores, desde arriba", "Vos a cámara: cierre de S03, S07 y S10", "Cinta métrica y una pileta dibujada para S07", "Agua con sol sin venecitas, para transiciones (S09)", "Fotos de piletas terminadas (pedirlas antes)"], "gear": ["Recipiente transparente grande (pecera o fuente de vidrio)", "Agua limpia", "Luz de sol natural: afuera o junto a una ventana", "Trípode para celular", "Fondo blanco debajo del recipiente", "Carteles con nombre y código de cada color", "Paño para secar"], "key": "st"};
+
+(function () {
+  var TYPE_LABEL = { reel: "Reel", carrusel: "Carrusel", post: "Foto" };
+  var WD = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+  var MONTH = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+  function el(tag, attrs, html) { var e = document.createElement(tag); for (var k in attrs || {}) e.setAttribute(k, attrs[k]); if (html != null) e.innerHTML = html; return e; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function store(key, val) { try { if (val === undefined) return JSON.parse(localStorage.getItem(key) || "null"); localStorage.setItem(key, JSON.stringify(val)); } catch (e) { return null; } }
+
+  function initPlan(root, P) {
+    function q(s) { return root.querySelector(s); }
+    var bank = q("[data-bank] tbody");
+    P.reels.forEach(function (r) {
+      var tr = el("tr", { id: P.scripted.indexOf(r[0]) >= 0 ? "bank-" + r[0] : r[0] });
+      tr.innerHTML = "<td>" + r[0] + "</td><td>" + esc(r[1]) + "</td><td>" + esc(r[2]) + "</td><td>" + esc(r[3]) + "</td><td>" + esc(r[4]) + "</td>";
+      bank.appendChild(tr);
+    });
+    var cwrap = q("[data-carousels]");
+    P.carousels.forEach(function (c) {
+      var card = el("div", { class: "card", id: c[0] });
+      card.innerHTML = '<p><span class="tag t-carrusel">Carrusel</span> <span class="tier">' + c[0] + "</span></p><h3 style=\"margin-top:8px\">" + esc(c[1]) + '</h3><div class="slides">' +
+        c[2].map(function (s, i) { return "<span><b>" + (i + 1) + "</b>" + esc(s) + "</span>"; }).join("") + "</div>";
+      cwrap.appendChild(card);
+    });
+    var wbox = q("[data-weeks]"), dbox = q("[data-days]");
+    function renderWeek(w) {
+      Array.prototype.forEach.call(wbox.children, function (b, i) { b.setAttribute("aria-pressed", String(i === w)); });
+      dbox.innerHTML = "";
+      var wk = P.weeks[w];
+      P.days.filter(function (d) { return d[0] >= wk[0] && d[0] <= wk[1]; }).forEach(function (d) {
+        var dt = new Date(d[0] + "T12:00:00");
+        var row = el("div", { class: "day" + (d[3] ? " hi" : "") });
+        var items = d[1].map(function (it) {
+          var title = esc(it[3]);
+          var link = it[2] ? '<a href="#' + it[2] + '">' + it[2] + " · " + title + "</a>" : "<span>" + title + "</span>";
+          return '<div class="item"><span class="time">' + it[0] + '</span><span class="tag t-' + it[1] + '">' + TYPE_LABEL[it[1]] + "</span>" + link + "</div>";
+        }).join("");
+        row.innerHTML = '<p class="date">' + dt.getDate() + " " + MONTH[dt.getMonth()] + "<small>" + WD[dt.getDay()] + '</small></p><div class="items">' + (items || '<div class="item"><span class="small">Sin publicación en el feed</span></div>') +
+          '<p class="stories"><b>Historias:</b> ' + esc(d[2]) + "</p></div>";
+        dbox.appendChild(row);
+      });
+      store(P.key + "-week", w);
+    }
+    P.weeks.forEach(function (wk, i) {
+      var b = el("button", { type: "button", "aria-pressed": "false" }, "Semana " + (i + 1) + " · " + wk[2]);
+      b.addEventListener("click", function () { renderWeek(i); });
+      wbox.appendChild(b);
+    });
+    var saved = store(P.key + "-week");
+    renderWeek(typeof saved === "number" && saved >= 0 && saved < P.weeks.length ? saved : 0);
+
+    var checks = store(P.key + "-checks") || {};
+    function checklist(ul, items, prefix, onChange) {
+      ul.innerHTML = "";
+      items.forEach(function (text, i) {
+        var id = prefix + "-" + i, dom = P.key + "-" + id;
+        var li = el("li");
+        li.innerHTML = '<label for="' + dom + '"><input type="checkbox" id="' + dom + '"' + (checks[id] ? " checked" : "") + "><span>" + esc(text) + "</span></label>";
+        li.querySelector("input").addEventListener("change", function (e) { checks[id] = e.target.checked; store(P.key + "-checks", checks); if (onChange) onChange(); });
+        ul.appendChild(li);
+      });
+    }
+    var pick = q("[data-modelpick]");
+    function progress() {
+      var total = P.models.length * P.shots.length, done = 0;
+      P.models.forEach(function (m, mi) { P.shots.forEach(function (s, si) { if (checks["m" + mi + "-" + si]) done++; }); });
+      q("[data-prog]").textContent = done + " de " + total + " tomas";
+    }
+    function showModel(i) {
+      Array.prototype.forEach.call(pick.children, function (b, j) { b.setAttribute("aria-pressed", String(i === j)); });
+      checklist(q("[data-shots]"), P.shots, "m" + i, progress);
+    }
+    P.models.forEach(function (m, i) {
+      var b = el("button", { type: "button", "aria-pressed": "false" }, esc(m));
+      b.addEventListener("click", function () { showModel(i); });
+      pick.appendChild(b);
+    });
+    showModel(0); progress();
+    checklist(q("[data-general]"), P.general, "g");
+    checklist(q("[data-gear]"), P.gear, "e");
+  }
+
+  initPlan(document.getElementById("v-piedra"), window.PLANS.piedra);
+  initPlan(document.getElementById("v-momo"), window.PLANS.momo);
+  initPlan(document.getElementById("v-strufaldi"), window.PLANS.strufaldi);
+
+  // Vistas
+  var VIEWS = ["resumen", "piedra", "momo", "strufaldi"];
+  var tabs = document.querySelectorAll(".switch [data-view]");
+  function show(v, scroll) {
+    VIEWS.forEach(function (n) { document.getElementById("v-" + n).hidden = n !== v; });
+    Array.prototype.forEach.call(tabs, function (t) { if (t.getAttribute("data-view") === v) t.setAttribute("aria-current", "page"); else t.removeAttribute("aria-current"); });
+    store("plan-view", v);
+    if (scroll) window.scrollTo(0, 0);
+  }
+  Array.prototype.forEach.call(tabs, function (t) { t.addEventListener("click", function () { show(t.getAttribute("data-view"), true); }); });
+  document.addEventListener("click", function (e) {
+    var g = e.target.closest("[data-go]");
+    if (g) { e.preventDefault(); show(g.getAttribute("data-go"), true); }
+  });
+  // Un enlace a un guion o carrusel de otra vista la abre primero
+  function viewOf(id) { var t = document.getElementById(id); var v = t && t.closest(".view"); return v ? v.id.slice(2) : null; }
+  window.addEventListener("hashchange", function () { var v = viewOf(location.hash.slice(1)); if (v && document.getElementById("v-" + v).hidden) { show(v, false); document.getElementById(location.hash.slice(1)).scrollIntoView(); } });
+  var start = viewOf(location.hash.slice(1)) || store("plan-view");
+  show(VIEWS.indexOf(start) >= 0 ? start : "resumen", false);
+})();
+</script>
+
+</html>
